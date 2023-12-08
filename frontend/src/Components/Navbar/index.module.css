@@ -1,0 +1,88 @@
+.navbar {
+  color: #ffffff;
+  background: #191b35;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 120px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  font-family: Inter-Tight;
+}
+
+.navListLeft {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 40px;
+}
+
+.navListRight {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+}
+
+.navListRight div img {
+  width: 36px;
+  height: 36px;
+}
+
+.navItem {
+  font-size: 20px;
+  line-height: 24px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.navItem a {
+  color: #a0a3c4;
+  text-decoration: none;
+}
+
+.navItem a:hover {
+  color: #ffffff;
+  font-weight: 500;
+  transition: 0.2s ease-in-out;
+}
+
+.navItemActive {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.wallet {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border: 1px solid #ffffff;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: Inter;
+}
+
+.wallet:hover {
+  background: #242944;
+  cursor: pointer;
+  transition: 0.2s ease-in-out;
+}
+
+.user {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border: 1px solid #ffffff;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: Inter;
+}
+
+.user:hover {
+  background: #242944;
+  cursor: pointer;
+  transition: 0.2s ease-in-out;
+}
