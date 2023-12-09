@@ -134,6 +134,9 @@ const Home = () => {
          linkColor={() => 'rgba(255,255,255,0.3)'}
          nodeColor={() => '#8a46ff'}
          backgroundColor='#191b35'
+         linkDirectionalParticles={1}
+         linkDirectionalParticleColor={() => '#8a46ff'}
+         nodeRelSize={5}
           graphData={{
             nodes: [
               { id: "1" },
