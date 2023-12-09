@@ -8,7 +8,6 @@ import ClientTableCompleted from "../../Components/ClientTableCompleted";
 
 const UserDashboard = () => {
     const [activeTab, setActiveTab] = useState(0);
-    const [visible, setVisible] = useState(false);
 
     const handleTabChange = (index) => {
         setActiveTab(index);
@@ -17,7 +16,7 @@ const UserDashboard = () => {
         <>
             <Navbar />
             <div className={styles.container}>
-                <h1>User Dashboard</h1>
+                <h1>Client Dashboard</h1>
                 <div className={styles.tabs}>
                     <div
                         className={activeTab === 0 ? styles.tabActive : styles.tab}

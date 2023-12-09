@@ -3,9 +3,12 @@ import styles from "./index.module.css";
 import * as am5 from "@amcharts/amcharts5";
 import * as am5hierarchy from "@amcharts/amcharts5/hierarchy";
 import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
+import Navbar from "../Navbar";
+import { useSDK } from "@metamask/sdk-react";
 
 const Home = () => {
   const fgRef = useRef();
+  const { account } = useSDK();
   useLayoutEffect(() => {
     let root = am5.Root.new("chartdiv");
     root.setThemes([am5themes_Animated.new(root)]);
@@ -26,7 +29,8 @@ const Home = () => {
         childDataField: "children",
         minRadius: am5.percent(5),
         manyBodyStrength: -30,
-        nodePadding: 10
+        nodePadding: 10,
+        maxRadius: am5.percent(10),
       })
     );
 
@@ -37,25 +41,22 @@ const Home = () => {
     });
 
     series.nodes.template.setAll({
-    //   draggable: false,
+      //   draggable: false,
       brightness: 0.8,
-      // filter: "drop-shadow(0px 0px 20px #8a46ff)"
     });
 
     series.data.setAll([{
       name: "Root",
       value: 0,
       children: [{
-        name: "User1",
+        name: `${account.slice(0, 6)}...${account.slice(-5, -1)}}`,
+        value: 2,
         children: [{
-          name: "Node1",
-          value: 23
+          name: "Node",
+          value: 1
         }, {
-          name: "Node1",
-          value: 27
-        }, {
-          name: "Node1",
-          value: 29
+          name: "Node",
+          value: 1
         }
         ]
       }]
@@ -68,23 +69,27 @@ const Home = () => {
     };
   }, [])
 
-  const useForceUpdate = () => {
-    const setToggle = useState(false)[1];
-    return () => setToggle((b) => !b);
-  };
-
-  const forceUpdate = useForceUpdate();
 
   return (
+    <>
+      <Navbar/>
     <div className={styles.container}>
       <div id="chartdiv" className={styles.chartdiv}>
-      <div className={styles.analysisDiv}>
-        <p>Node 1: {}</p>
-        <p>Node 2: {}</p>
-        <p>Node 3: {}</p>
+        <div className={styles.analysisDiv}>
+          <p>Node 1: { }</p>
+          <p>Node 2: { }</p>
+        </div>
       </div>
+      <div className={styles.graph}>
+        <div>
+          before aggregation
+        </div>
+        <div>
+          after aggregation
+        </div>
       </div>
     </div>
+    </>
   );
 };
 

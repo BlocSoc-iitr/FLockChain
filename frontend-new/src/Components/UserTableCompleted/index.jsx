@@ -6,6 +6,7 @@ import {
   ETHEREUM_LOGO,
   TETHER_LOGO,
 } from "../../constants/constants";
+import { Link } from "react-router-dom";
 
 const columns = [
   {
@@ -95,6 +96,7 @@ const UserTableCompleted = () => {
   ];
 
   return (
+    <Link to="/session-details/:id" className={styles.link}>
       <Table
       columns={columns}
       dataSource={data}
@@ -102,6 +104,7 @@ const UserTableCompleted = () => {
       className={styles.table}
       pagination={false}
     />
+    </Link>
   );
 };
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import styles from "./index.module.css";
 import { Table } from "antd";
 import {
@@ -6,7 +6,6 @@ import {
   ETHEREUM_LOGO,
   TETHER_LOGO,
 } from "../../constants/constants";
-import { Link } from "react-router-dom";
 
 const columns = [
   {
