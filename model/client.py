@@ -5,7 +5,7 @@ import json
 from colorama import Fore, Style
 
 def send_final(final_weights_json):
-    server_endpoint = "http://192.168.206.90/api/v1/model/"  
+    server_endpoint = "http://localhost:6969/api/v1/FinalParams/"
     response = requests.post(server_endpoint, json={"final_weights": final_weights_json})
     if response.status_code == 200:
         print(f"{Fore.GREEN}Final weights sent to server successfully.{Style.RESET_ALL}")
@@ -24,8 +24,8 @@ model.add(layers.Flatten())
 model.add(layers.Dense(10, activation='softmax'))
 model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
 
-for epoch in range(5):
-    print(f"\n{Fore.GREEN}Currently at Epoch {epoch + 1}/{5}{Style.RESET_ALL}")
+for epoch in range(2):
+    print(f"\n{Fore.GREEN}Currently at Epoch {epoch + 1}/{2}{Style.RESET_ALL}")
     
     for client_id, (client_images, client_labels) in enumerate(clients_data):
         print(f"\n{Fore.RED} Starting training, operation in progress {client_id + 1}/{5}{Style.RESET_ALL}")
@@ -34,11 +34,12 @@ for epoch in range(5):
     #for client_id, (client_images, client_labels) in enumerate(clients_data):
         updated_weights = model.get_weights()
         updated_weights = [w.tolist() for w in updated_weights]
-        response = requests.post("http://192.168.206.90/api/v1/model/", json={"client_id": client_id,"updated_weights" : updated_weights})
+        response = requests.post("http://localhost:6969/api/v1/model/", json={"client_id": client_id,"updated_weights" : updated_weights})
         print(f"{Fore.YELLOW}Server response for Client {client_id + 1}/{5}: {response.text}{Style.RESET_ALL}")
 
     if response.status_code == 200:
             received_weights = response.json()
+            r_weights = requests.get("http://localhost:6969/api/v1/newParams/")
             model.set_weights([tf.constant(w) for w in received_weights])
             print(f"\n{Fore.RED}Continuing training {client_id + 1}/{5} with updated weights{Style.RESET_ALL}")
             model.fit(client_images, client_labels, epochs=1)
@@ -49,4 +50,10 @@ final_weights_json = [w.tolist() for w in final_weights]
 with open('final_weights.json', 'w') as json_file:
     json.dump(final_weights_json, json_file)
 
-send_final(final_weights_json)
+server_endpoint = "http://localhost:6969/api/v1/FinalParams/"
+response = requests.post(server_endpoint, json={"final_weights": final_weights_json})
+if response.status_code == 200:
+    print(f"{Fore.GREEN}Final weights sent to server successfully.{Style.RESET_ALL}")
+else:
+    print(f"{Fore.RED}Failed to send final weights to server. Status code: {response.status_code}{Style.RESET_ALL}")
+
