@@ -16,23 +16,23 @@ model.add(layers.Flatten())
 model.add(layers.Dense(10, activation='softmax'))
 model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
 
-for epoch in range(3):
-    print(f"\n{Fore.GREEN}Epoch {epoch + 1}/{3}{Style.RESET_ALL}")
+for epoch in range(5):
+    print(f"\n{Fore.GREEN}Currently at Epoch {epoch + 1}/{5}{Style.RESET_ALL}")
     
     for client_id, (client_images, client_labels) in enumerate(clients_data):
-        print(f"\n{Fore.RED}Training on Client {client_id + 1}/{5}{Style.RESET_ALL}")
+        print(f"\n{Fore.RED} Starting training, operation in progress {client_id + 1}/{5}{Style.RESET_ALL}")
         model.fit(client_images, client_labels, epochs=1)
     
     #for client_id, (client_images, client_labels) in enumerate(clients_data):
         updated_weights = model.get_weights()
         updated_weights = [w.tolist() for w in updated_weights]
-        response = requests.post("http://localhost:6969/model", json={"client_id": client_id,"updated_weights" : updated_weights})
+        response = requests.post("http://192.168.206.90/api/v1/model/", json={"client_id": client_id,"updated_weights" : updated_weights})
         print(f"{Fore.YELLOW}Server response for Client {client_id + 1}/{5}: {response.text}{Style.RESET_ALL}")
 
     if response.status_code == 200:
             received_weights = response.json()
             model.set_weights([tf.constant(w) for w in received_weights])
-            print(f"\n{Fore.RED}Continuing training on Client {client_id + 1}/{5} with updated weights{Style.RESET_ALL}")
+            print(f"\n{Fore.RED}Continuing training {client_id + 1}/{5} with updated weights{Style.RESET_ALL}")
             model.fit(client_images, client_labels, epochs=1)
 
 final_weights = model.get_weights()
