@@ -29,3 +29,11 @@ The Contracts Deployed on PolygonZKEVM :
 3. SlashingManager.sol --> 0xe6dd79c6d7c1b959e6dd87838ed8ca571c632172 {Verified}
 4. SlashTreasury.sol --> 0xd043f19c25a83903788c95ce39a8be0064896a4e {Verified}
 5. StakingRegistry.sol --> 0x7bb3af97694802b4665cf74079376d2167bf03d5 {Verified}
+
+The Contracts Deployed on Arbitrum : 
+
+1. RewardTreasury.sol --> 0xd2c5b64acfffa8f1377b79d929f781582d95cbf3 {Verified}
+2. RewardManager.sol --> 0x1fd53deeeb666f07ce0dd2b905535cb45d4294c3 {Verified}
+3. SlashingManager.sol --> 0x122195923d6f6d04ba748628c9678401f6c4340f {Verified}
+4. SlashTreasury.sol --> 0x8709ea3d5680b0de65d716f87721d07c0fc46ff3 {Verified}
+5. StakingRegistry.sol --> 0x3edc74f276ff9c476a5be63e3a5b20c616e84a43 {Verified}
