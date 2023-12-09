@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User</title>
+</head>
+
+<body>
+    <h1>User</h1>
+    <br>
+    <hr><br>
+    <form action="/client" method="get">
+        <label for="numClients">Enter the number of clients:</label>
+        <input type="number" id="numClients" name="numClients" min="1" required>
+        <br>
+        <hr><br>
+        <label for="mlModel">Enter the type of ML model:</label>
+        <input type="text" id="mlModel" name="mlModel" required>
+        <br>
+        <hr><br>
+        <label for="numLayers">Enter the number of layers:</label>
+        <input type="number" id="numLayers" name="numLayers" min="1" required>
+        <br>
+        <hr><br>
+        <label for="floatArray">Enter an array of floating-point numbers (comma-separated):</label>
+        <input type="text" id="floatArray" name="floatArray" pattern="^(\d+(\.\d+)?,)*\d+(\.\d+)?$"
+            title="Enter numbers separated by commas" required>
+            <br>
+            <hr><br>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+
+</html>

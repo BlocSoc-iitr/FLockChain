@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client</title>
+</head>
+<body>
+    <h1>Client</h1>
+    <br><hr><br>
+    <p id="c1"></p>
+    <p id="c2"></p>
+    <p id="c3"></p>
+    <p id="c4"></p>
+</body>
+<script>
+    var UserRequests = <%- JSON.stringify(UserRequests) %>;
+    console.log("this is the UserRequests : ");
+    console.log(UserRequests);
+    if (UserRequests.length != 0) {
+        let c1 = document.getElementById("c1")
+        let c2 = document.getElementById("c2")
+        let c3 = document.getElementById("c3")
+        let c4 = document.getElementById("c4")
+        console.log(UserRequests);
+        UserRequests.forEach(element => {
+            c1.innerHTML = c1.innerHTML + " | " + element.numClients
+            c2.innerHTML = c2.innerHTML + " | " + element.mlModel
+            c3.innerHTML = c3.innerHTML + " | " + element.numLayers
+            c4.innerHTML = c4.innerHTML + " | " + element.floatArray
+        });
+    }
+</script>
+</html>
