@@ -1,0 +1,33 @@
+specVersion: 0.0.5
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: StakingRegistry
+    network: sepolia
+    source:
+      address: "0xc15391b649ed9afc2df40190a8f2fcba8b984721"
+      abi: StakingRegistry
+      startBlock: 4851820
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - SlashStake
+        - Stake
+        - Unregister
+        - WithdrawStake
+      abis:
+        - name: StakingRegistry
+          file: ./abis/StakingRegistry.json
+      eventHandlers:
+        - event: SlashStake(indexed address)
+          handler: handleSlashStake
+        - event: Stake(indexed address)
+          handler: handleStake
+        - event: Unregister(indexed address)
+          handler: handleUnregister
+        - event: WithdrawStake(indexed address)
+          handler: handleWithdrawStake
+      file: ./src/staking-registry.ts

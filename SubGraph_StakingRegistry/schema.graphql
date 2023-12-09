@@ -1,0 +1,31 @@
+type SlashStake @entity(immutable: true) {
+  id: Bytes!
+  client: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type Stake @entity(immutable: true) {
+  id: Bytes!
+  client: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type Unregister @entity(immutable: true) {
+  id: Bytes!
+  client: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type WithdrawStake @entity(immutable: true) {
+  id: Bytes!
+  client: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
