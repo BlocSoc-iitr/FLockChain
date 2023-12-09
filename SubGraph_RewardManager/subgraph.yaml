@@ -1,0 +1,27 @@
+specVersion: 0.0.5
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: RewardManager
+    network: sepolia
+    source:
+      address: "0x4cb9a914a35f08024932ef5f99ca954686034f5b"
+      abi: RewardManager
+      startBlock: 4851776
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - CollectTrainingFees
+        - NewUserInstance
+      abis:
+        - name: RewardManager
+          file: ./abis/RewardManager.json
+      eventHandlers:
+        - event: CollectTrainingFees(indexed uint256,indexed address[],uint256)
+          handler: handleCollectTrainingFees
+        - event: NewUserInstance(indexed uint256,indexed address[],uint256)
+          handler: handleNewUserInstance
+      file: ./src/reward-manager.ts

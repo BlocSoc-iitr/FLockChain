@@ -1,0 +1,8 @@
+{
+  "sepolia": {
+    "RewardManager": {
+      "address": "0x4cb9a914a35f08024932ef5f99ca954686034f5b",
+      "startBlock": 4851776
+    }
+  }
+}
