@@ -4,6 +4,14 @@ import requests
 import json
 from colorama import Fore, Style
 
+def send_final(final_weights_json):
+    server_endpoint = "http://192.168.206.90/api/v1/model/"  
+    response = requests.post(server_endpoint, json={"final_weights": final_weights_json})
+    if response.status_code == 200:
+        print(f"{Fore.GREEN}Final weights sent to server successfully.{Style.RESET_ALL}")
+    else:
+        print(f"{Fore.RED}Failed to send final weights to server. Status code: {response.status_code}{Style.RESET_ALL}")
+
 (train_images, train_labels), (_, _) = datasets.cifar10.load_data()
 train_images, train_labels = train_images / 255.0, train_labels.flatten()
 
@@ -40,3 +48,5 @@ final_weights_json = [w.tolist() for w in final_weights]
 
 with open('final_weights.json', 'w') as json_file:
     json.dump(final_weights_json, json_file)
+
+send_final(final_weights_json)
