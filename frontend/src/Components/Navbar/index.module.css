@@ -4,7 +4,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px 120px;
+  padding: 16px 240px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   font-family: Inter-Tight;
 }
@@ -56,15 +56,17 @@
   justify-content: space-between;
   align-items: center;
   gap: 8px;
-  padding: 10px 16px;
-  border: 1px solid #ffffff;
-  border-radius: 4px;
+  padding: 4px 16px;
+  border-radius: 12px;
   cursor: pointer;
   font-family: Inter;
+  background: #6802dd;
+  border: 2px solid #6802dd;
 }
 
 .wallet:hover {
-  background: #242944;
+  border: 2px solid #6802dd;
+  background: transparent;
   cursor: pointer;
   transition: 0.2s ease-in-out;
 }
@@ -85,4 +87,16 @@
   background: #242944;
   cursor: pointer;
   transition: 0.2s ease-in-out;
+}
+
+.details {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 15px;
+  font-family: Inter-Tight;
+  opacity: 0.7;
+  font-weight: 700;
+  color: #fff;
 }

@@ -22,6 +22,11 @@ body {
   }
 }
 
+.ant-table-cell-row-hover {
+  background: #242944 !important;
+}
+
+
 .App-header {
   background-color: #282c34;
   min-height: 100vh;

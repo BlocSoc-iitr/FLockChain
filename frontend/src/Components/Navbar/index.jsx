@@ -4,6 +4,7 @@ import styles from "./index.module.css";
 // import WalletModal from "../WalletModal";
 
 import { Link } from "react-router-dom";
+import BlockiesSvg from "blockies-react-svg";
 
 const Navbar = () => {
   const [visible, setVisible] = React.useState(false);
@@ -16,10 +17,21 @@ const Navbar = () => {
         </div>
       </div>
       <div className={styles.navListRight}>
-        <div onClick={() => setVisible(true)}>
-          {/* <img src="" alt="wallet" /> */}
+        <div className={styles.wallet}>
+          <BlockiesSvg
+            address="0x1234...ABCD"
+            style={{
+              width: 32,
+              height: 32,
+              borderRadius: 16,
+              marginRight: 8,
+            }}
+          />
+          <div className={styles.details}>
+            <div className={styles.walletAddress}>0x1234...ABCD</div>
+            <div className={styles.walletRole}>User</div>
+          </div>
         </div>
-        {/* <WalletSelector /> */}
       </div>
       {/* <WalletModal visible={visible} setVisible={setVisible} /> */}
     </div>
