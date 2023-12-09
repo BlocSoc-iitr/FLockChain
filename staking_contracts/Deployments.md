@@ -18,4 +18,6 @@ The Contracts Deployed on Linea Goerlli :
 
 1. RewardTreasury.sol --> 0x7d1bb6b83edcb9378d3c4647e218bcb1dea19cce
 2. RewardManager.sol --> 0x79bd4b4c662810f049171fdeb3563826b12df65b
-3. SlashingManager.sol --> 
+3. SlashingManager.sol --> 0xd043f19c25a83903788c95ce39a8be0064896a4e
+4. SlashTreasury.sol --> 0x7bb3af97694802b4665cf74079376d2167bf03d5
+5. StakingRegistry.sol --> 0x8aafabc0711cd5508f1b775e78bb40cd6296cfe5
