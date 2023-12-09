@@ -26,7 +26,7 @@ for epoch in range(3):
     #for client_id, (client_images, client_labels) in enumerate(clients_data):
         updated_weights = model.get_weights()
         updated_weights = [w.tolist() for w in updated_weights]
-        response = requests.post("http://localhost:5000/update_model", json={"client_id": client_id, "weights": updated_weights})
+        response = requests.post("http://localhost:6969/model", json={"client_id": client_id,"updated_weights" : updated_weights})
         print(f"{Fore.YELLOW}Server response for Client {client_id + 1}/{5}: {response.text}{Style.RESET_ALL}")
 
     if response.status_code == 200:
