@@ -8,6 +8,8 @@ contract SlashingManager {
 
     address public immutable SLASHER_ADDRESS;
 
+    event SlashClients(address[] indexed clients, uint256 indexed instanceId);
+
     /// @notice Constructor for SlashingManager
     /// @param _slasherAddress Address of slasher
     constructor(address _slasherAddress) {
@@ -20,6 +22,7 @@ contract SlashingManager {
     /// @param _stakingRegistry Address of staking registry
     function slash(
         address[] calldata _clientAddress,
+        uint256 _instanceId,
         address _stakingRegistry
     ) external {
         if (msg.sender != SLASHER_ADDRESS) {
@@ -29,5 +32,13 @@ contract SlashingManager {
         for (uint256 i = 0; i < _clientAddress.length; i++) {
             stakingRegistry.slashStake(_clientAddress[i]);
         }
+        emit SlashClients(_clientAddress, _instanceId);
+    }
+
+    /// @notice Function to get slasher address
+    /// @dev This function is used to get slasher address
+    /// @return Address of slasher
+    function getSlasherAddress() external view returns (address) {
+        return SLASHER_ADDRESS;
     }
 }

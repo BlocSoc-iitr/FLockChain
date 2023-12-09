@@ -11,6 +11,17 @@ contract RewardManager {
     mapping(uint256 => UserInstance) public idToUserInstance;
     uint256 public nonce;
 
+    event NewUserInstance(
+        uint256 indexed instanceId,
+        address[] indexed clientAddress,
+        uint256 numberOfEpochs
+    );
+    event CollectTrainingFees(
+        uint256 indexed instanceId,
+        address[] indexed clientAddress,
+        uint256 numberOfEpochs
+    );
+
     struct UserInstance {
         address[] clientAddress;
         uint256 numberOfEpochs;
@@ -34,6 +45,7 @@ contract RewardManager {
     /// @dev This function is used to create new user instance
     /// @param _clientAddress Address of client
     /// @param _numberOfEpochs Number of epochs for which client wants to train
+    /// @return Instance id of user
     function newUserInstance(
         address[] calldata _clientAddress,
         uint256 _numberOfEpochs
@@ -53,6 +65,7 @@ contract RewardManager {
             _numberOfEpochs
         );
         nonce++;
+        emit NewUserInstance(_instanceId, _clientAddress, _numberOfEpochs);
         return _instanceId;
     }
 
@@ -86,5 +99,40 @@ contract RewardManager {
             value: protocolFeeToTransfer
         }("");
         require(success, "Transfer failed.");
+        emit CollectTrainingFees(_instanceId, _clientAddress, _numberOfEpochs);
+    }
+
+    /// @notice Function to get reward treasury address
+    /// @dev This function is used to get reward treasury address
+    /// @return Address of reward treasury
+    function getRewardTreasuryAddress() external view returns (address) {
+        return REWARD_TREASURY_ADDRESS;
+    }
+
+    /// @notice Function to get fee per epoch
+    /// @dev This function is used to get fee per epoch
+    /// @return Fee per epoch
+    function getFeePerEpoch() external view returns (uint256) {
+        return FEE_PER_EPOCH;
+    }
+
+    /// @notice Function to get protocol fee percentage
+    /// @dev This function is used to get protocol fee percentage
+    /// @return Protocol fee percentage
+    function getProtocolFeePercentage() external view returns (uint256) {
+        return PROTOCOL_FEE_PERCENTAGE;
+    }
+
+    /// @notice Function to get user instance
+    /// @dev This function is used to get user instance
+    /// @param _instanceId Instance id of user
+    /// @return clientAddress Address of client
+    function getUserInstance(
+        uint256 _instanceId
+    ) external view returns (address[] memory, uint256) {
+        return (
+            idToUserInstance[_instanceId].clientAddress,
+            idToUserInstance[_instanceId].numberOfEpochs
+        );
     }
 }

@@ -25,6 +25,11 @@ contract StakingRegistry {
     address public immutable SLASHING_MANAGER;
     address public immutable SLASH_TREASURY_ADDRESS;
 
+    event Stake(address indexed client);
+    event Unregister(address indexed client);
+    event WithdrawStake(address indexed client);
+    event SlashStake(address indexed client);
+
     /// @notice Constructor for StakingRegistry
     /// @param _stakeAmount Amount of stake required to be staked by client
     /// @param _stakingPeriod Period for which client stake is locked
@@ -63,6 +68,8 @@ contract StakingRegistry {
             clientStakes[msg.sender] == STAKE_AMOUNT,
             "Incorrect staking amount"
         );
+
+        emit Stake(msg.sender);
     }
 
     /// @notice Function to unregister client
@@ -74,6 +81,8 @@ contract StakingRegistry {
         require(isStaked[msg.sender], "Not staked");
         withdrawlTimelock[msg.sender] = block.timestamp + STAKING_PERIOD;
         isStaked[msg.sender] = false;
+
+        emit Unregister(msg.sender);
     }
 
     /// @notice Function to withdraw client stake
@@ -90,6 +99,8 @@ contract StakingRegistry {
         (bool success, ) = msg.sender.call{value: _stake}("");
         require(success, "Transfer failed.");
         require(clientStakes[msg.sender] == 0, "Incorrect stake amount");
+
+        emit WithdrawStake(msg.sender);
     }
 
     /// @notice Function to slash client stake
@@ -112,5 +123,71 @@ contract StakingRegistry {
         isSlashed[_clientAddress] = true;
         (bool success, ) = SLASH_TREASURY_ADDRESS.call{value: _stake}("");
         require(success, "Transfer failed.");
+
+        emit SlashStake(_clientAddress);
+    }
+
+    /// @notice Function to get client stake
+    /// @dev This function is used to get client stake
+    /// @param _clientAddress Address of client
+    /// @return Client stake
+    function getClientStake(
+        address _clientAddress
+    ) external view returns (uint256) {
+        return clientStakes[_clientAddress];
+    }
+
+    /// @notice Function to get staking period
+    /// @dev This function is used to get staking period
+    /// @return Staking period
+    function getStakingPeriod() external view returns (uint256) {
+        return STAKING_PERIOD;
+    }
+
+    /// @notice Function to get stake amount
+    /// @dev This function is used to get stake amount
+    /// @return Stake amount
+    function getStakeAmount() external view returns (uint256) {
+        return STAKE_AMOUNT;
+    }
+
+    /// @notice Function to get slash treasury address
+    /// @dev This function is used to get slash treasury address
+    /// @return Address of slash treasury
+    function getSlashTreasuryAddress() external view returns (address) {
+        return SLASH_TREASURY_ADDRESS;
+    }
+
+    /// @notice Function to get slashing manager address
+    /// @dev This function is used to get slashing manager address
+    /// @return Address of slashing manager
+    function getSlashingManagerAddress() external view returns (address) {
+        return SLASHING_MANAGER;
+    }
+
+    /// @notice Function to get withdrawl timelock
+    /// @dev This function is used to get withdrawl timelock
+    /// @param _clientAddress Address of client
+    /// @return Withdrawl timelock
+    function getWithdrawlTimelock(
+        address _clientAddress
+    ) external view returns (uint256) {
+        return withdrawlTimelock[_clientAddress];
+    }
+
+    /// @notice Function to get is slashed
+    /// @dev This function is used to get is slashed
+    /// @param _clientAddress Address of client
+    /// @return Is slashed
+    function getIsSlashed(address _clientAddress) external view returns (bool) {
+        return isSlashed[_clientAddress];
+    }
+
+    /// @notice Function to get is staked
+    /// @dev This function is used to get is staked
+    /// @param _clientAddress Address of client
+    /// @return Is staked
+    function getIsStaked(address _clientAddress) external view returns (bool) {
+        return isStaked[_clientAddress];
     }
 }

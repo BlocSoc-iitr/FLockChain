@@ -7,6 +7,9 @@ contract SlashTreasury {
 
     address public immutable ADMIN_ADDRESS;
 
+    event Withdraw(uint256 amount);
+    event Recieved(uint256 amount);
+
     /// @notice Constructor for SlashTreasury
     /// @param _adminAddress Address of admin
     constructor(address _adminAddress) {
@@ -24,7 +27,18 @@ contract SlashTreasury {
         }
         (bool success, ) = ADMIN_ADDRESS.call{value: _amount}("");
         require(success, "Transfer failed.");
+
+        emit Withdraw(_amount);
     }
 
-    receive() external payable {}
+    /// @notice Function to get admin address
+    /// @dev This function is used to get admin address
+    /// @return Address of admin
+    function getAdminAddress() external view returns (address) {
+        return ADMIN_ADDRESS;
+    }
+
+    receive() external payable {
+        emit Recieved(msg.value);
+    }
 }
