@@ -1,9 +1,20 @@
+// Require Statements
 const express = require("express");
 const app = express();
 const port = 6969;
 const morgan = require("morgan");
 const { exec } = require('child_process');
 const mongoose = require("mongoose");
+require('dotenv').config();
+const cors = require("cors");
+const fs = require("fs")
+
+// Imports
+const { mongodb, find, delete_data, findall } = require("./services/mongo");
+const {forms} = require("./services/schema");
+
+// Client ID
+let clients = []
 
 // Fully HomoMorphic Encryption
 ;(async () => {
@@ -18,17 +29,23 @@ const mongoose = require("mongoose");
   parms.setPolyModulusDegree(polyModulusDegree)
   parms.setCoeffModulus(
     seal.CoeffModulus.Create(polyModulusDegree, Int32Array.from(bitSizes))
-  )
-  parms.setPlainModulus(
-    seal.PlainModulus.Batching(polyModulusDegree, bitSize)
-  )
-  const context = seal.Context(
-    parms, 
-    true, 
-    securityLevel 
-  )
+    )
+    parms.setPlainModulus(
+      seal.PlainModulus.Batching(polyModulusDegree, bitSize)
+      )
+      const context = seal.Context(
+        parms, 
+        true, 
+        securityLevel 
+        )
 })()
+      
+// Connecting MongoDB
+mongodb();
+// CORS
+app.use(cors());
 
+// To send Data to the client
 var bodyParser = require('body-parser');
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
@@ -41,35 +58,48 @@ app.use(express.static("public")); // to view static files
 app.get("/api/", (req,res) => {
   res.send("Hello World!")
 })
-
-app.get("/api/v1/client", (req, res) => {
-    console.log(req.query);
-    if (Object.values(req.query).length !== 0) {
-        UserRequests.push({
-            numClients: req.query.numClients,
-            mlModel: req.query.mlModel,
-            numLayers: req.query.numLayers,
-            floatArray: req.query.floatArray.split(',').map(parseFloat)
-        });
-    }
-    console.log(UserRequests);
-    res.status(200).render("client", { layout: false, UserRequests: UserRequests });
+      
+app.post("/api/v1/form/add", async (req, res) => {
+  console.log(req.body);
+  FormObject = {
+    User_Address : req.body.User_Address,
+    session_name: req.body.session_name,
+    model_type: req.body.model_type,
+    no_of_clients: req.body.no_of_clients,
+    no_of_layers: req.body.no_of_layers,
+    activation_function : req.body.activation_function,
+    Optimizer : req.body.Optimizer,
+    Desired_Accuracy : req.body.Desired_Accuracy
+  }
+  const form = new forms(FormObject);
+  await form.save();
+  res.send("SuccessFully Added");
 });
 
+app.get("/api/v1/form/fetch", async (req,res) => {
+  const Available_forms = await findall(forms);
+  res.json(Available_forms);
+})
+
+app.get("/api/v1/form/remove", async (req,res) => {
+  await delete_data(forms,req.body.query,req.body.params);
+  res.send("SuccessFully Removed")
+})
+
 app.get("/api/v1/epoch", (req,res) => {
-    console.log("Epoch Done, Starting Evaluation .....");
+  console.log("Epoch Done, Starting Evaluation .....");
 
 
 
-    cipherText1 = "To get"
-    cipherText2 = "Later"
-    cipherText_Normalize = "HopeFully :)"
-    // Decoding Encrypted Data
-    const Result = seal.CipherText()
-    evaluator.add(cipherText1, cipherText2, cipherText1) 
-    evaluator.multiply(cipherText1,cipherText_Normalize,Result)
+  cipherText1 = "To get"
+  cipherText2 = "Later"
+  cipherText_Normalize = "HopeFully :)"
+  // Decoding Encrypted Data
+  const Result = seal.CipherText()
+  evaluator.add(cipherText1, cipherText2, cipherText1) 
+  evaluator.multiply(cipherText1,cipherText_Normalize,Result)
 
-    // send the Result to the clients .... 
+  // send the Result to the clients .... 
 })
 
 app.get("/api/v1/result", (req,res) => {
@@ -85,10 +115,49 @@ app.get("/api/v1/home", (req,res) => {
 })
 
 app.post("/api/v1/model", (req,res) => {
-  console.log(req.body);
   let client_id = req.body.client_id
   let model_params = req.body.updated_weights;
-  res.json(model_params)
+  clients.push(client_id);
+  const filePath = `${client_id}.json`;
+
+  fs.writeFile(filePath, model_params, 'utf-8', (err) => {
+    if (err) {
+      console.error('Error writing to file:', err);
+    } else {
+      console.log('Data has been written to the file successfully.');
+    }
+  });
+  res.send("Received")
+})
+
+app.get("/api/v1/newParams", (req,res) => {
+  
+})
+
+app.get("/api/v1/FinalParams", (req,res) => {
+  const filePath = "FinalParams.json"
+  let model_params = req.body.updated_weights;
+  fs.writeFile(filePath,model_params,'utf-8', (err) => {
+    if (err) {
+      console.error('Error writing to file:', err);
+    } else {
+      console.log('Received Final Params');
+    }
+  })
+})
+
+app.get("/api/v1/download", (req,res) => {
+  res.download(
+    "./UpdatedParams.json",
+    "final_weights.json",
+    (err) => {
+      if (err) {
+        res.send({
+            error : err,
+            msg   : "Problem downloading the file"
+        })
+      }
+    });
 })
 
 app.listen(port, () => {
