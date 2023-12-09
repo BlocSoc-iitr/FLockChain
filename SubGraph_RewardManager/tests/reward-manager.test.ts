@@ -6,7 +6,7 @@ import {
   beforeAll,
   afterAll
 } from "matchstick-as/assembly/index"
-import { BigInt, Address } from "@graphprotocol/graph-ts"
+import { BigInt } from "@graphprotocol/graph-ts"
 import { CollectTrainingFees } from "../generated/schema"
 import { CollectTrainingFees as CollectTrainingFeesEvent } from "../generated/RewardManager/RewardManager"
 import { handleCollectTrainingFees } from "../src/reward-manager"
@@ -18,13 +18,9 @@ import { createCollectTrainingFeesEvent } from "./reward-manager-utils"
 describe("Describe entity assertions", () => {
   beforeAll(() => {
     let instanceId = BigInt.fromI32(234)
-    let clientAddress = [
-      Address.fromString("0x0000000000000000000000000000000000000001")
-    ]
     let numberOfEpochs = BigInt.fromI32(234)
     let newCollectTrainingFeesEvent = createCollectTrainingFeesEvent(
       instanceId,
-      clientAddress,
       numberOfEpochs
     )
     handleCollectTrainingFees(newCollectTrainingFeesEvent)
@@ -46,12 +42,6 @@ describe("Describe entity assertions", () => {
       "0xa16081f360e3847006db660bae1c6d1b2e17ec2a-1",
       "instanceId",
       "234"
-    )
-    assert.fieldEquals(
-      "CollectTrainingFees",
-      "0xa16081f360e3847006db660bae1c6d1b2e17ec2a-1",
-      "clientAddress",
-      "[0x0000000000000000000000000000000000000001]"
     )
     assert.fieldEquals(
       "CollectTrainingFees",

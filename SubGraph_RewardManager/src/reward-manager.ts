@@ -11,7 +11,6 @@ export function handleCollectTrainingFees(
     event.transaction.hash.concatI32(event.logIndex.toI32())
   )
   entity.instanceId = event.params.instanceId
-  entity.clientAddress = event.params.clientAddress
   entity.numberOfEpochs = event.params.numberOfEpochs
 
   entity.blockNumber = event.block.number
@@ -26,7 +25,6 @@ export function handleNewUserInstance(event: NewUserInstanceEvent): void {
     event.transaction.hash.concatI32(event.logIndex.toI32())
   )
   entity.instanceId = event.params.instanceId
-  entity.clientAddress = event.params.clientAddress
   entity.numberOfEpochs = event.params.numberOfEpochs
 
   entity.blockNumber = event.block.number

@@ -1,8 +1,0 @@
-{
-  "sepolia": {
-    "SlashingManager": {
-      "address": "0xb34197ec099d32d528f29f8a3cf3fdaa067bc5e0",
-      "startBlock": 4851782
-    }
-  }
-}

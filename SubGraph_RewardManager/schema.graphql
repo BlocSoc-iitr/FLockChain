@@ -1,7 +1,6 @@
 type CollectTrainingFees @entity(immutable: true) {
   id: Bytes!
   instanceId: BigInt! # uint256
-  clientAddress: [Bytes!]! # address[]
   numberOfEpochs: BigInt! # uint256
   blockNumber: BigInt!
   blockTimestamp: BigInt!
@@ -11,7 +10,6 @@ type CollectTrainingFees @entity(immutable: true) {
 type NewUserInstance @entity(immutable: true) {
   id: Bytes!
   instanceId: BigInt! # uint256
-  clientAddress: [Bytes!]! # address[]
   numberOfEpochs: BigInt! # uint256
   blockNumber: BigInt!
   blockTimestamp: BigInt!

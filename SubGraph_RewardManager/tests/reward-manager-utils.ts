@@ -1,5 +1,5 @@
 import { newMockEvent } from "matchstick-as"
-import { ethereum, BigInt, Address } from "@graphprotocol/graph-ts"
+import { ethereum, BigInt } from "@graphprotocol/graph-ts"
 import {
   CollectTrainingFees,
   NewUserInstance
@@ -7,7 +7,6 @@ import {
 
 export function createCollectTrainingFeesEvent(
   instanceId: BigInt,
-  clientAddress: Array<Address>,
   numberOfEpochs: BigInt
 ): CollectTrainingFees {
   let collectTrainingFeesEvent = changetype<CollectTrainingFees>(newMockEvent())
@@ -22,12 +21,6 @@ export function createCollectTrainingFeesEvent(
   )
   collectTrainingFeesEvent.parameters.push(
     new ethereum.EventParam(
-      "clientAddress",
-      ethereum.Value.fromAddressArray(clientAddress)
-    )
-  )
-  collectTrainingFeesEvent.parameters.push(
-    new ethereum.EventParam(
       "numberOfEpochs",
       ethereum.Value.fromUnsignedBigInt(numberOfEpochs)
     )
@@ -38,7 +31,6 @@ export function createCollectTrainingFeesEvent(
 
 export function createNewUserInstanceEvent(
   instanceId: BigInt,
-  clientAddress: Array<Address>,
   numberOfEpochs: BigInt
 ): NewUserInstance {
   let newUserInstanceEvent = changetype<NewUserInstance>(newMockEvent())
@@ -49,12 +41,6 @@ export function createNewUserInstanceEvent(
     new ethereum.EventParam(
       "instanceId",
       ethereum.Value.fromUnsignedBigInt(instanceId)
-    )
-  )
-  newUserInstanceEvent.parameters.push(
-    new ethereum.EventParam(
-      "clientAddress",
-      ethereum.Value.fromAddressArray(clientAddress)
     )
   )
   newUserInstanceEvent.parameters.push(
