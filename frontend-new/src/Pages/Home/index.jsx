@@ -1,10 +1,11 @@
-import { useSDK } from '@metamask/sdk-react';
-import React, { useState, Component, useLayoutEffect,useRef } from 'react';
+import { useSDK } from "@metamask/sdk-react";
+import React, { useState, Component, useLayoutEffect, useRef } from "react";
 import styles from "./index.module.css";
 // import * as am5 from "@amcharts/amcharts5";
 // import * as am5hierarchy from "@amcharts/amcharts5/hierarchy";
 // import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
-import { ForceGraph2D} from 'react-force-graph';
+import { ForceGraph2D } from "react-force-graph";
+import metamask from "./../../Assets/metamask-icon.svg";
 
 const Home = () => {
   const fgRef = useRef();
@@ -109,7 +110,7 @@ const Home = () => {
 
   const useForceUpdate = () => {
     const setToggle = useState(false)[1];
-    return () => setToggle(b => !b);
+    return () => setToggle((b) => !b);
   };
 
   const forceUpdate = useForceUpdate();
@@ -130,13 +131,13 @@ const Home = () => {
       )} */}
       <div id="chartdiv" className={styles.canvas}>
         <ForceGraph2D
-         ref={fgRef}
-         linkColor={() => 'rgba(255,255,255,0.3)'}
-         nodeColor={() => '#8a46ff'}
-         backgroundColor='#191b35'
-         linkDirectionalParticles={1}
-         linkDirectionalParticleColor={() => '#8a46ff'}
-         nodeRelSize={5}
+          ref={fgRef}
+          linkColor={() => "rgba(255,255,255,0.3)"}
+          nodeColor={() => "#8a46ff"}
+          backgroundColor="#191b35"
+          linkDirectionalParticles={1}
+          linkDirectionalParticleColor={() => "#8a46ff"}
+          nodeRelSize={5}
           graphData={{
             nodes: [
               { id: "1" },
@@ -193,8 +194,15 @@ const Home = () => {
           }}
         />
       </div>
-      <div className={styles.title}>
-        <h1>Flock</h1>
+      <div className={styles.content}>
+        <div className={styles.title}>Flock</div>
+        <div className={styles.subtitle}>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit.
+        </div>
+        <button className={styles.button} onClick={connect}>
+          Connect Wallet
+          <img src={metamask} alt="" />
+        </button>
       </div>
     </div>
   );
