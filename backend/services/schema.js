@@ -8,7 +8,8 @@ const FormSchema = new mongoose.Schema({
     no_of_layers: Number,
     activation_function : String,
     Optimizer : String,
-    Desired_Accuracy : Number
+    Desired_Accuracy : Number,
+    display : Number
 });
 
 const forms = mongoose.model("forms", FormSchema);

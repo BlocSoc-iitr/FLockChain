@@ -41,7 +41,7 @@ let clients = []
 })()
       
 // Connecting MongoDB
-mongodb();
+// mongodb();
 // CORS
 app.use(cors());
 
@@ -69,7 +69,8 @@ app.post("/api/v1/form/add", async (req, res) => {
     no_of_layers: req.body.no_of_layers,
     activation_function : req.body.activation_function,
     Optimizer : req.body.Optimizer,
-    Desired_Accuracy : req.body.Desired_Accuracy
+    Desired_Accuracy : req.body.Desired_Accuracy,
+    display : req.body.display
   }
   const form = new forms(FormObject);
   await form.save();
@@ -117,33 +118,56 @@ app.get("/api/v1/home", (req,res) => {
 app.post("/api/v1/model", (req,res) => {
   let client_id = req.body.client_id
   let model_params = req.body.updated_weights;
+  let data_write = JSON.stringify(model_params, null, 2);
+  console.log(data_write);
   clients.push(client_id);
-  const filePath = `${client_id}.json`;
-
-  fs.writeFile(filePath, model_params, 'utf-8', (err) => {
+  console.log(client_id);
+  const filePath = `./${client_id}.json`;
+  fs.writeFile(filePath, data_write, { encoding: 'utf-8', flag: 'w' }, (err) => {
     if (err) {
       console.error('Error writing to file:', err);
     } else {
       console.log('Data has been written to the file successfully.');
     }
   });
-  res.send("Received")
+  res.json(model_params)
 })
 
 app.get("/api/v1/newParams", (req,res) => {
-  
+  Final_Result = [];
+  clients.forEach(element => {
+    fs.readFile(`${element}.json`, 'utf-8', (err, data) => {
+      if (err) {
+        console.error('Error reading file:', err);
+      } else {
+        console.log("Aggregating");
+      }
+    });
+  });
+  setTimeout(function() {
+    res.download("./Aggregated_Params.json", "Aggregated_Params.json", (err) => {
+      if(err) {
+        res.send({
+          error: err,
+          msg : "Problem downloading the File"
+        })
+      }
+    })
+  }, 5000);
 })
 
-app.get("/api/v1/FinalParams", (req,res) => {
-  const filePath = "FinalParams.json"
-  let model_params = req.body.updated_weights;
-  fs.writeFile(filePath,model_params,'utf-8', (err) => {
+app.post("/api/v1/FinalParams", (req,res) => {
+  const filePath = "./FinalParams.json"
+  let model_params = req.body.final_weights;
+  let data_to_write = JSON.stringify(model_params, null, 2);
+  fs.writeFile(filePath, data_to_write, { encoding: 'utf-8', flag: 'w' }, (err) => {
     if (err) {
       console.error('Error writing to file:', err);
     } else {
-      console.log('Received Final Params');
+      console.log('Data has been written to the file successfully.');
     }
-  })
+  });
+  res.send("Success !!")
 })
 
 app.get("/api/v1/download", (req,res) => {
