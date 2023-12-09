@@ -1,9 +1,9 @@
 const express = require("express");
 const app = express();
 const port = 6969;
+const morgan = require("morgan");
 const { exec } = require('child_process');
-// const math = require('mathjs');
-// const tf = require('@tensorflow/tfjs-node');
+const mongoose = require("mongoose");
 
 // Fully HomoMorphic Encryption
 ;(async () => {
@@ -29,13 +29,20 @@ const { exec } = require('child_process');
   )
 })()
 
-app.use(express.json()); // to get the data in json format
-app.use(express.urlencoded({ extended: true })); // to get the form data
+var bodyParser = require('body-parser');
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
+
+app.use(morgan('dev'))
 
 app.set("view engine", "ejs");
 app.use(express.static("public")); // to view static files
 
-app.get("/client", (req, res) => {
+app.get("/api/", (req,res) => {
+  res.send("Hello World!")
+})
+
+app.get("/api/v1/client", (req, res) => {
     console.log(req.query);
     if (Object.values(req.query).length !== 0) {
         UserRequests.push({
@@ -49,7 +56,7 @@ app.get("/client", (req, res) => {
     res.status(200).render("client", { layout: false, UserRequests: UserRequests });
 });
 
-app.get("/epoch", (req,res) => {
+app.get("/api/v1/epoch", (req,res) => {
     console.log("Epoch Done, Starting Evaluation .....");
 
 
@@ -65,21 +72,23 @@ app.get("/epoch", (req,res) => {
     // send the Result to the clients .... 
 })
 
-app.get("/result", (req,res) => {
+app.get("/api/v1/result", (req,res) => {
     
 })
 
-app.get("/user", (req,res) => {
+app.get("/api/v1/user", (req,res) => {
     res.status(200).render("user",{layout : false});
 })
 
-app.get("/", (req,res) => {
+app.get("/api/v1/home", (req,res) => {
     res.status(200).render("main",{layout : false});
 })
 
-app.post("/model", (req,res) => {
-  console.log("hey therere abvuiberobvoerv");
-  res.status(200).render("model",{layout : false});
+app.post("/api/v1/model", (req,res) => {
+  console.log(req.body);
+  let client_id = req.body.client_id
+  let model_params = req.body.updated_weights;
+  res.json(model_params)
 })
 
 app.listen(port, () => {

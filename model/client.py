@@ -30,7 +30,7 @@ for epoch in range(3):
         print(f"{Fore.YELLOW}Server response for Client {client_id + 1}/{5}: {response.text}{Style.RESET_ALL}")
 
     if response.status_code == 200:
-            received_weights = response.json()["weights"]
+            received_weights = response.json()
             model.set_weights([tf.constant(w) for w in received_weights])
             print(f"\n{Fore.RED}Continuing training on Client {client_id + 1}/{5} with updated weights{Style.RESET_ALL}")
             model.fit(client_images, client_labels, epochs=1)
