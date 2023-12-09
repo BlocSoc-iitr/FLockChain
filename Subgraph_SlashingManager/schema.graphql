@@ -1,0 +1,7 @@
+type SlashClients @entity(immutable: true) {
+  id: Bytes!
+  instanceId: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}

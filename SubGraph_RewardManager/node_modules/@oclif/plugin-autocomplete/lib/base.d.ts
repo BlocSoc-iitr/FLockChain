@@ -1,0 +1,10 @@
+import { Command } from '@oclif/core';
+export declare abstract class AutocompleteBase extends Command {
+    get cliBin(): string;
+    get cliBinEnvVar(): string;
+    determineShell(shell: string): string;
+    get autocompleteCacheDir(): string;
+    get acLogfilePath(): string;
+    writeLogFile(msg: string): void;
+    private isBashOnWindows;
+}
