@@ -19,6 +19,7 @@
     "mongoose": "^8.0.3",
     "morgan": "^1.10.0",
     "node-seal": "^5.1.2",
+    "nodemon": "^3.0.2",
     "tfhe": "^0.4.1",
     "tfhe-web": "^0.0.1"
   }
