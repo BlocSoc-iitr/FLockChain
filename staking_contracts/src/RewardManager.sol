@@ -13,12 +13,10 @@ contract RewardManager {
 
     event NewUserInstance(
         uint256 indexed instanceId,
-        address[] indexed clientAddress,
         uint256 numberOfEpochs
     );
     event CollectTrainingFees(
         uint256 indexed instanceId,
-        address[] indexed clientAddress,
         uint256 numberOfEpochs
     );
 
@@ -65,7 +63,7 @@ contract RewardManager {
             _numberOfEpochs
         );
         nonce++;
-        emit NewUserInstance(_instanceId, _clientAddress, _numberOfEpochs);
+        emit NewUserInstance(_instanceId, _numberOfEpochs);
         return _instanceId;
     }
 
@@ -99,7 +97,7 @@ contract RewardManager {
             value: protocolFeeToTransfer
         }("");
         require(success, "Transfer failed.");
-        emit CollectTrainingFees(_instanceId, _clientAddress, _numberOfEpochs);
+        emit CollectTrainingFees(_instanceId, _numberOfEpochs);
     }
 
     /// @notice Function to get reward treasury address
