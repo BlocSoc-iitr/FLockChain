@@ -1,17 +1,133 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./index.module.css";
 import Navbar from "../../Components/Navbar";
 import UserTable from "../../Components/UserTable";
 import UserTableCompleted from "../../Components/UserTableCompleted";
 import close from "./../../Assets/close.svg";
-import { Dropdown, Modal, Space } from "antd";
+import { Modal } from "antd";
 import { CircularProgress } from "@mui/material";
-import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
+import Select from "@mui/material/Select";
+import { IoWarningOutline } from "react-icons/io5";
+import { handleFetchGasData } from "./getGasData";
+import { ethers } from "ethers";
+import { abi } from "./abi";
 
-const TaskModal = ({ visible, setVisible }) => {
+const TxModal = ({ visible, setVisible, setCreateVisible }) => {
+  const [loading, setLoading] = useState(false);
+  const [gasData, setGasData] = useState();
+
+  const handleClickDeposit = async () => {
+    setLoading(true);
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+    const contract = new ethers.Contract(
+      "0x6a1b1d831d2e1605e25ad83ef0e852c6c4f1c2e8",
+      abi,
+      signer
+    );
+    const tx = await contract.payBaseFee({
+      value: ethers.utils.parseEther("0.05"),
+    });
+    await tx.wait();
+    setLoading(false);
+    setVisible(false);
+    setCreateVisible(false);
+  };
+
+  useEffect(() => {
+    (async () => {
+      const gasData = await handleFetchGasData();
+      setGasData(gasData);
+    })();
+  }, []);
+
+  return (
+    <Modal
+      visible={visible}
+      onOk={() => {}}
+      onCancel={() => setVisible(false)}
+      footer={null}
+      closeIcon={<img src={close} alt="" />}
+    >
+      <div className={styles.modalContainer}>
+        <div className={styles.modalTitle}>Payment</div>
+        <div className={styles.modalContent}>
+          <div className={styles.modalContentItem}>
+            <div className={styles.modalContentItemLabel}>
+              <IoWarningOutline size={40} />
+              <div>
+                You need to pay a base fees for training your model. You will be
+                charged an additional fees of 0.01ETH per epoch. You will be
+                charged a gas fee for the transaction.
+              </div>
+            </div>
+          </div>
+          <div className={styles.modalContentItem}>
+            <div className={styles.modalContentItemValue}>
+              Base Fees: 0.05 ETH
+            </div>
+            <div>Protocol Fees: 0.0002ETH</div>
+          </div>
+          <div className={styles.gasHeader}>Gas Data</div>
+          <div className={styles.gasHeader}>Sepolia Testnet</div>
+          <div className={styles.modalContentItem}>
+            <div className={styles.gasContainer}>
+              <div className={styles.modalContentItemLabel}>
+                <div>Fastest</div>
+                <div>
+                  {(gasData &&
+                    gasData.high.suggestedMaxFeePerGas.slice(0, 5) + " Gwei") ||
+                    0.0 + " Gwei"}
+                </div>
+              </div>
+            </div>
+            <div className={styles.modalContentItemLabel}>
+              <div>Average</div>
+              <div>
+                {(gasData &&
+                  gasData.medium.suggestedMaxFeePerGas.slice(0, 5) + " Gwei") ||
+                  0.0 + " Gwei"}
+              </div>
+            </div>
+            <div className={styles.modalContentItemLabel}>
+              <div>Slow</div>
+              <div>
+                {(gasData &&
+                  gasData.low.suggestedMaxFeePerGas.slice(0, 5) + " Gwei") ||
+                  0.0 + " Gwei"}
+              </div>
+            </div>
+            <div></div>
+          </div>
+          <div className={styles.congestion}>
+            Network Congestion: {gasData && gasData.networkCongestion}
+          </div>
+        </div>
+        <div className={styles.modalButtonGroup}>
+          <button
+            className={styles.modalDepositButton}
+            onClick={() => handleClickDeposit()}
+          >
+            {loading ? (
+              <CircularProgress
+                size={20}
+                sx={{
+                  color: "#fff",
+                }}
+              />
+            ) : (
+              "Pay Now"
+            )}
+          </button>
+        </div>
+      </div>
+    </Modal>
+  );
+};
+
+const TaskModal = ({ visible, setVisible, setPayVisible }) => {
   const [loading, setLoading] = useState(false);
   const [name, setName] = useState("");
   const [modelType, setModelType] = useState("");
@@ -23,6 +139,7 @@ const TaskModal = ({ visible, setVisible }) => {
 
   const handleClickDeposit = async () => {
     setLoading(true);
+    setPayVisible(true);
     setTimeout(() => {
       setLoading(false);
       setVisible(false);
@@ -148,9 +265,16 @@ const TaskModal = ({ visible, setVisible }) => {
             className={styles.modalDepositButton}
             onClick={() => handleClickDeposit()}
           >
-            {loading ? <CircularProgress size={20} sx={{
-              color:"#fff"
-            }} /> : "Start Session"}
+            {loading ? (
+              <CircularProgress
+                size={20}
+                sx={{
+                  color: "#fff",
+                }}
+              />
+            ) : (
+              "Start Session"
+            )}
           </button>
         </div>
       </div>
@@ -160,6 +284,7 @@ const TaskModal = ({ visible, setVisible }) => {
 
 const UserDashboard = () => {
   const [activeTab, setActiveTab] = React.useState(0);
+  const [createVisible, setCreateVisible] = React.useState(false);
   const [visible, setVisible] = React.useState(false);
 
   const handleTabChange = (index) => {
@@ -171,7 +296,10 @@ const UserDashboard = () => {
       <div className={styles.container}>
         <h1>User Dashboard</h1>
         <div className={styles.tabs}>
-          <button className={styles.button} onClick={() => setVisible(true)}>
+          <button
+            className={styles.button}
+            onClick={() => setCreateVisible(true)}
+          >
             Create New Task
           </button>
           <div
@@ -189,7 +317,16 @@ const UserDashboard = () => {
         </div>
         {activeTab === 0 ? <UserTable /> : <UserTableCompleted />}
       </div>
-      <TaskModal visible={visible} setVisible={setVisible} />
+      <TaskModal
+        visible={createVisible}
+        setVisible={setCreateVisible}
+        setPayVisible={setVisible}
+      />
+      <TxModal
+        visible={visible}
+        setVisible={setVisible}
+        setCreateVisible={setCreateVisible}
+      />
     </>
   );
 };
