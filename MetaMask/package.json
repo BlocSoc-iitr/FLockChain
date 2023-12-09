@@ -1,16 +1,16 @@
 {
-  "name": "fully_homomorphic_encryption",
+  "name": "metamask",
   "version": "1.0.0",
   "description": "",
-  "main": "FHE.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@lighthouse-web3/sdk": "^0.3.0",
-    "fs": "^0.0.1-security",
-    "node-seal": "^5.1.2"
+    "axios": "^1.6.2",
+    "dotenv": "^16.3.1"
   }
 }
