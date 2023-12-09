@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "./index.module.css";
 import { Table } from "antd";
-import {
-  BITCOIN_LOGO,
-} from "../../constants/constants";
+import axios from "axios";
 
 const columns = [
   {
@@ -13,17 +11,17 @@ const columns = [
       return (
         <div className={styles.tableContent}>
           <div>
-            <div className={styles.header}>{record.name}</div>
+            <div className={styles.header}>{record.session_name}</div>
             <div className={styles.subHeader}>{record.time}</div>
-            <div>Desired Accuracy: 95.6%</div>
+            <div>Desired Accuracy: {record.Desired_Accuracy}%</div>
             <div className={styles.status}>
               <div className={styles.dot}></div>
               Working
             </div>
           </div>
           <div>
-            <div>Layers: 2</div>
-            <div>Activation Function: RELU</div>
+            <div>Layers: {record.no_of_layers}</div>
+            <div>Activation Function: {record.activation_function}</div>
             <div>{`Time Elapsed:${record.timeElapsed} `}</div>
           </div>
         </div>
@@ -40,6 +38,18 @@ const UserTable = () => {
   //sample date
   const startTime = new Date("2023-12-09 05:00:00");
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [data, setData] = useState([]);
+  const baseURL = "http://192.168.206.90/api/v1";
+
+  useEffect(() => {
+    axios.get(`${baseURL}/form/fetch`)
+    .then((res) => {
+      const updatedData = res.data.filter((item) => item.display === 1);
+      setData(updatedData);
+    }).catch((err) => {
+      console.log(err);
+    })
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -66,32 +76,20 @@ const UserTable = () => {
     return ` ${hours}:${minutes}:${seconds} hours `;
   };
 
-  const data = [
-    {
-      key: "1",
-      time: "2021-04-01 12:00:00",
-      logo: BITCOIN_LOGO,
-      name: "CNN Model Training 20231209",
-      price: "2058.8",
-      type: "MARKET",
-      side: "LONG",
-      change_24h: "+3.27%",
-      high_24h: "2059.0",
-      low_24h: "2058.8",
-      volume_24h: "$1.80M",
-      openInterest: "$179.0M",
-      timeElapsed: calculateElapsedTime(),
-    }
-  ];
-
   return (
-    <Table
-      columns={columns}
-      dataSource={data}
-      onChange={onChange}
-      className={styles.table}
-      pagination={false}
-    />
+    <>
+    {data.length > 0 ?
+      <Table
+        columns={columns}
+        dataSource={data}
+        onChange={onChange}
+        className={styles.table}
+        pagination={false}
+      /> : <div className={styles.noData}>
+        No Data Available
+      </div>
+    }
+    </>
   );
 };
 

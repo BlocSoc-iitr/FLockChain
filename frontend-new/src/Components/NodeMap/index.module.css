@@ -5,6 +5,7 @@
     justify-content: center;
     padding: 30px;
     width: inherit;
+    user-select: none;
 }
 
 .chartdiv {
@@ -31,10 +32,22 @@
     align-items: center;
     justify-content: center;
     padding: 2rem;
-    gap: 10px;
-
-    >p {
+    >div>p {
         margin: 0;
+        color: green;
+    }
+    >div{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+}
+
+.lossDiv{
+    >p{
+        margin: 0;
+        color: red !important;
     }
 }
 

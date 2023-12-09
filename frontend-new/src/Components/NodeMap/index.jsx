@@ -6,7 +6,7 @@ import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
 import Navbar from "../Navbar";
 import { useSDK } from "@metamask/sdk-react";
 
-const Home = () => {
+const NodeMap = () => {
   const fgRef = useRef();
   const { account } = useSDK();
   useLayoutEffect(() => {
@@ -49,7 +49,7 @@ const Home = () => {
       name: "Root",
       value: 0,
       children: [{
-        name: `${account.slice(0, 6)}...${account.slice(-5, -1)}}`,
+        name: `${account && account?.slice(0, 6)}...${account && account?.slice(-5, -1)}}`,
         value: 2,
         children: [{
           name: "Node",
@@ -59,6 +59,9 @@ const Home = () => {
           value: 1
         }
         ]
+      }, {
+        name: "Malicious Node",
+        value: 2,
       }]
     }]);
     series.set("selectedDataItem", series.dataItems[0]);
@@ -69,28 +72,36 @@ const Home = () => {
     };
   }, [])
 
+  const useForceUpdate = () => {
+    const setToggle = useState(false)[1];
+    return () => setToggle((b) => !b);
+  };
+
+  const forceUpdate = useForceUpdate();
+
 
   return (
     <>
-      <Navbar/>
-    <div className={styles.container}>
-      <div id="chartdiv" className={styles.chartdiv}>
-        <div className={styles.analysisDiv}>
-          <p>Node 1: { }</p>
-          <p>Node 2: { }</p>
+      <Navbar />
+      <div className={styles.container}>
+        <div id="chartdiv" className={styles.chartdiv}>
+          <div className={styles.analysisDiv}>
+            <div>Node 1:<p>+0.001</p> </div>
+            <div>Node 2:<p>+0.001</p></div>
+            <div className={styles.lossDiv}>Malicious Node:<p>-0.01</p></div>
+          </div>
+        </div>
+        <div className={styles.graph}>
+          <div>
+            before aggregation
+          </div>
+          <div>
+            after aggregation
+          </div>
         </div>
       </div>
-      <div className={styles.graph}>
-        <div>
-          before aggregation
-        </div>
-        <div>
-          after aggregation
-        </div>
-      </div>
-    </div>
     </>
   );
 };
 
-export default Home;
+export default NodeMap;

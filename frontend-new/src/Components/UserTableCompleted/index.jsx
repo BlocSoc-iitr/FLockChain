@@ -7,6 +7,8 @@ import {
   TETHER_LOGO,
 } from "../../constants/constants";
 import { Link } from "react-router-dom";
+import ButtonGroup from "antd/es/button/button-group";
+import axios from "axios";
 
 const columns = [
   {
@@ -16,24 +18,24 @@ const columns = [
       return (
         <div className={styles.tableContent}>
           <div>
-            <div className={styles.header}>{record.name}</div>
+            <div className={styles.header}>{record.session_name}</div>
             <div className={styles.subHeader}>{record.time}</div>
-            <div>Desired Accuracy: 95.6%</div>
-            <div>Achieved Accuracy: 95.6%</div>
+            <div>Desired Accuracy: {record.Desired_Accuracy}%</div>
+            <div>Achieved Accuracy: !!!!!!!!!%</div>
             <div className={styles.status}>
               <div className={styles.dot}></div>
               Completed
             </div>
           </div>
           <div>
-            <div>Layers: 2</div>
-            <div>Activation Function: RELU</div>
+            <div>Layers: {record.no_of_layers}</div>
+            <div>Activation Function: {record.activation_function}</div>
             <div>Total Loss: 0.15</div>
             <div>{`Time Taken: ${record.timeElapsed} `}</div>
           </div>
           <div>
             <div>Trained Through</div>
-            <div className={styles.nodeNumber}>23</div>
+            <div className={styles.nodeNumber}>{record.no_of_clients}</div>
             <div>Nodes</div>
           </div>
         </div>
@@ -47,64 +49,35 @@ const onChange = (pagination, filters, sorter, extra) => {
 };
 
 const UserTableCompleted = () => {
-  const data = [
-    {
-      key: "1",
-      time: "2021-04-01 12:00:00",
-      logo: BITCOIN_LOGO,
-      name: "CNN Model Training 20231209",
-      price: "2058.8",
-      type: "MARKET",
-      side: "LONG",
-      change_24h: "+3.27%",
-      high_24h: "2059.0",
-      low_24h: "2058.8",
-      volume_24h: "$1.80M",
-      openInterest: "$179.0M",
-      timeElapsed: "1hr 36min",
-    },
-    {
-      key: "2",
-      time: "2021-04-01 12:00:00",
-      logo: ETHEREUM_LOGO,
-      name: "RNN Model Training 20231209",
-      price: "2058.8",
-      type: "MARKET",
-      side: "LONG",
-      change_24h: "-3.27%",
-      high_24h: "2059.0",
-      low_24h: "2058.8",
-      volume_24h: "$1.80M",
-      openInterest: "$179.0M",
-      timeElapsed: "1hr 36min",
-    },
-    {
-      key: "3",
-      time: "2021-04-01 12:00:00",
-      logo: TETHER_LOGO,
-      name: "MLP Model Training 20231209",
-      price: "2058.8",
-      type: "MARKET",
-      side: "LONG",
-      change_24h: "+3.27%",
-      high_24h: "2059.0",
-      low_24h: "2058.8",
-      volume_24h: "$1.80M",
-      openInterest: "$179.0M",
-      timeElapsed: "1hr 36min",
-    },
-  ];
+  const [data, setData] = useState([]);
+  const baseURL = "http://192.168.206.90/api/v1";
+  useEffect(() => {
+    axios.get(`${baseURL}/form/fetch`)
+      .then((res) => {
+        const updatedData = res.data.filter((item) => item.display === 2);
+        setData(updatedData);
+      }).catch((err) => {
+        console.log(err);
+      })
+  }, []);
 
   return (
-    <Link to="/session-details/:id" className={styles.link}>
-      <Table
-      columns={columns}
-      dataSource={data}
-      onChange={onChange}
-      className={styles.table}
-      pagination={false}
-    />
-    </Link>
+    <>
+      {data.length > 0 ?
+        <Link to="/session-details/:id" className={styles.link}>
+          <Table
+            columns={columns}
+            dataSource={data}
+            onChange={onChange}
+            className={styles.table}
+            pagination={false}
+          />
+        </Link>
+        : <div className={styles.noData}>
+          No Data Available
+        </div>
+      }
+    </>
   );
 };
 

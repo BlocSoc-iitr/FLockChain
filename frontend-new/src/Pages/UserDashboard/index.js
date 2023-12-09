@@ -13,6 +13,9 @@ import { IoWarningOutline } from "react-icons/io5";
 import { handleFetchGasData } from "./getGasData";
 import { ethers } from "ethers";
 import { abi } from "./abi";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import axios from "axios";
+import { useSDK } from "@metamask/sdk-react";
 
 const TxModal = ({ visible, setVisible, setCreateVisible }) => {
   const [loading, setLoading] = useState(false);
@@ -136,19 +139,31 @@ const TaskModal = ({ visible, setVisible, setPayVisible }) => {
   const [layerNumber, setLayerNumber] = useState(2);
   const [activationFn, setActivationFn] = useState("");
   const [optimiser, setOptimiser] = useState("");
+  const baseURL = "http://192.168.206.90/api/v1";
+  const [post, setPost] = useState(null);
+  const { account } = useSDK();
 
   const handleClickDeposit = async () => {
-    setLoading(true);
-    setPayVisible(true);
-    setTimeout(() => {
-      setLoading(false);
-      setVisible(false);
-    }, 2000);
+    axios
+      .post(`${baseURL}/form/add`, {
+        User_Address: account,
+        session_name: name,
+        model_type: modelType,
+        no_of_clients: clientNumber,
+        no_of_layers: layerNumber,
+        activation_function: activationFn,
+        Optimizer: optimiser,
+        Desired_Accuracy: value,
+        display: "0",
+      })
+      .then((response) => {
+        setPost(response.data);
+      });
   };
   return (
     <Modal
       visible={visible}
-      onOk={() => {}}
+      onOk={() => { }}
       onCancel={() => setVisible(false)}
       footer={null}
       closeIcon={<img src={close} alt="" />}
