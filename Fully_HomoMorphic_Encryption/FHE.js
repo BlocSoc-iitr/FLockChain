@@ -33,12 +33,27 @@
 
     // Generating Keys,Evaluator and Encoder
     const encoder = seal.BatchEncoder(context)
+
     const keyGenerator = seal.KeyGenerator(context)
+    const keyGenerator42 = seal.KeyGenerator(context)
+
     const publicKey = keyGenerator.createPublicKey()
+    const publicKey42 = keyGenerator42.createPublicKey()
+
     const secretKey = keyGenerator.secretKey()
+    const secretKey42 = keyGenerator42.secretKey()
+    console.log(secretKey);
+    console.log(secretKey42);
+
     const encryptor = seal.Encryptor(context, publicKey)
+    const encryptor42 = seal.Encryptor(context, publicKey)
+
     const decryptor = seal.Decryptor(context, secretKey)
+    const decryptor42 = seal.Decryptor(context, secretKey)
+
     const evaluator = seal.Evaluator(context)
+    const evaluator42 = seal.Evaluator(context)
+
 
     // Sending the data
     const array1 = Int32Array.from([1,2,3,4,5])
@@ -46,19 +61,19 @@
     const cipherText1 = encryptor.encrypt(plainText1)
     const array2 = Int32Array.from([2,3,4,5,6])
     const plainText2 = encoder.encode(array2)
-    const cipherText2 = encryptor.encrypt(plainText2)
+    const cipherText2 = encryptor42.encrypt(plainText2)
 
-    const normalize = Int32Array.from([3,4,5,6,7])
-    const plainText_Normalize = encoder.encode(array2)
-    const cipherText_Normalize = encryptor.encrypt(plainText2)
+    // const normalize = Int32Array.from([3,4,5,6,7])
+    // const plainText_Normalize = encoder.encode(array2)
+    // const cipherText_Normalize = encryptor.encrypt(plainText2)
 
     // Doing Arithematic on the encrypted Data
     const Result = seal.CipherText()
-    evaluator.add(cipherText1, cipherText2, cipherText1) 
-    evaluator.multiply(cipherText1,cipherText_Normalize,Result)
+    evaluator.add(cipherText1, cipherText2, Result) 
+    // evaluator.multiply(cipherText1,cipherText_Normalize,Result)
 
     // Decoding the Encrypted Data
-    const decryptedPlainText = decryptor.decrypt(Result)
+    const decryptedPlainText = decryptor42.decrypt(Result)
     const decodedArray = encoder.decode(decryptedPlainText)
     console.log('decodedArray', decodedArray)
 
