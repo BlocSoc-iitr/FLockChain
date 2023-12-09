@@ -1,13 +1,12 @@
 import React from "react";
 import styles from "./index.module.css";
-// import wallet from "./../../Assets/wallet.svg";
-// import WalletModal from "../WalletModal";
-
 import { Link } from "react-router-dom";
 import BlockiesSvg from "blockies-react-svg";
+import { useSDK } from "@metamask/sdk-react";
 
 const Navbar = () => {
   const [visible, setVisible] = React.useState(false);
+  const { sdk, connected, chainId, account } = useSDK();
 
   return (
     <div className={styles.navbar}>
@@ -19,7 +18,7 @@ const Navbar = () => {
       <div className={styles.navListRight}>
         <div className={styles.wallet}>
           <BlockiesSvg
-            address="0x1234...ABCD"
+            address={account || "0x000000"}
             style={{
               width: 32,
               height: 32,
@@ -28,7 +27,9 @@ const Navbar = () => {
             }}
           />
           <div className={styles.details}>
-            <div className={styles.walletAddress}>0x1234...ABCD</div>
+            <div className={styles.walletAddress}>
+              {account && `${account.slice(0, 6)}...${account.slice(-5, -1)}`}
+            </div>
             <div className={styles.walletRole}>User</div>
           </div>
         </div>

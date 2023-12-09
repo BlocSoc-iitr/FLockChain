@@ -1,108 +1,20 @@
+import React, { useState, useRef } from "react";
 import { useSDK } from "@metamask/sdk-react";
-import React, { useState, Component, useLayoutEffect, useRef } from "react";
 import styles from "./index.module.css";
-// import * as am5 from "@amcharts/amcharts5";
-// import * as am5hierarchy from "@amcharts/amcharts5/hierarchy";
-// import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
 import { ForceGraph2D } from "react-force-graph";
 import metamask from "./../../Assets/metamask-icon.svg";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const fgRef = useRef();
-  const [account, setAccount] = useState("");
-  const { sdk, connected, chainId } = useSDK();
-  // useLayoutEffect(() => {
-  //   let root = am5.Root.new("chartdiv");
-  //   root.setThemes([am5themes_Animated.new(root)]);
-  //   var container = root.container.children.push(
-  //     am5.Container.new(root, {
-  //       width: am5.percent(50),
-  //       height: am5.percent(100),
-  //       layout: root.verticalLayout
-  //     })
-  //   );
-  //   var series = container.children.push(
-  //     am5hierarchy.ForceDirected.new(root, {
-  //       downDepth: 1,
-  //       initialDepth: 2,
-  //       topDepth: 1,
-  //       valueField: "value",
-  //       categoryField: "name",
-  //       childDataField: "children",
-  //       minRadius: am5.percent(5),
-  //       manyBodyStrength: -30,
-  //       nodePadding: 10
-  //     })
-  //   );
-
-  //   series.outerCircles.template.states.create("hoverdisabled", {
-  //     fillOpacity: 0.5,
-  //     strokeOpacity: 0,
-  //     strokeDasharray: 0
-  //   });
-
-  //   series.nodes.template.setAll({
-  //     draggable: false,
-  //     brightness: 0.8,
-  //     // filter: "drop-shadow(0px 0px 20px #8a46ff)"
-  //   });
-
-  //   series.data.setAll([{
-  //     name: "Root",
-  //     value: 0,
-  //     children: [{
-  //       name: "User1",
-  //       children: [{
-  //         name: "Node1",
-  //         value: 23
-  //       }, {
-  //         name: "Node1",
-  //         value: 27
-  //       }, {
-  //         name: "Node1",
-  //         value: 29
-  //       }
-  //       ]
-  //     }, {
-  //       name: "User2",
-  //       children: [{
-  //         name: "Node2",
-  //         value: 23
-  //       }, {
-  //         name: "Node2",
-  //         value: 27
-  //       }
-  //       ]
-  //     }, {
-  //       name: "User3",
-  //       children: [{
-  //         name: "Node3",
-  //         value: 23
-  //       }, {
-  //         name: "Node3",
-  //         value: 27
-  //       }, {
-  //         name: "Node3",
-  //         value: 29
-  //       }, {
-  //         name: "Node3",
-  //         value: 89
-  //       }
-  //       ]
-  //     }]
-  //   }]);
-  //   series.set("selectedDataItem", series.dataItems[0]);
-  //   root.current = root;
-
-  //   return () => {
-  //     root.dispose();
-  //   };
-  // }, [])
+  const navigate = useNavigate();
+  const { sdk, connected, chainId, account } = useSDK();
 
   const connect = async () => {
     try {
       const accounts = await sdk?.connect();
-      setAccount(accounts?.[0]);
+      console.log(`connected`, accounts);
+      navigate("/option");
     } catch (err) {
       console.warn(`failed to connect..`, err);
     }
@@ -117,18 +29,6 @@ const Home = () => {
 
   return (
     <div className="App">
-      {/* <button style={{ padding: 10, margin: 10 }} onClick={connect}>
-        Connect
-      </button>
-      {connected && (
-        <div>
-          <>
-            {chainId && `Connected chain: ${chainId}`}
-            <p></p>
-            {account && `Connected account: ${account}`}
-          </>
-        </div>
-      )} */}
       <div id="chartdiv" className={styles.canvas}>
         <ForceGraph2D
           ref={fgRef}
@@ -200,7 +100,9 @@ const Home = () => {
           Lorem ipsum dolor sit amet consectetur adipisicing elit.
         </div>
         <button className={styles.button} onClick={connect}>
-          Connect Wallet
+          {connected && account
+            ? `Connected to ${account.slice(0, 6)}...${account.slice(-5, -1)}`
+            : "Connect Wallet"}
           <img src={metamask} alt="" />
         </button>
       </div>

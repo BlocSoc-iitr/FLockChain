@@ -45,7 +45,7 @@ body {
   justify-content: center;
   align-items: center;
   gap: 10px;
-  border-radius: 4px;
+  border-radius: 12px;
   background: var(--button-primary, #6802dd);
   border: none;
   color: var(--text-body, #fff);
@@ -66,6 +66,11 @@ body {
 
 .button:focus {
   outline: none;
+}
+
+.button:disabled {
+  background: var(--button-primary-disabled, #4d00a8);
+  cursor: not-allowed;
 }
 
 .button img {

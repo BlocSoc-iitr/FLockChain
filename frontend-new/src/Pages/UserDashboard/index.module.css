@@ -53,3 +53,105 @@
   background: transparent;
   border: 2px solid #242944;
 }
+
+.button {
+  background: #6802dd;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-family: Inter-Tight;
+  font-weight: 600;
+  border: 2px solid #6802dd;
+  color: #ffffff;
+}
+
+.modal {
+  color: #ffffff;
+}
+.modalHeader {
+  background: #16182e;
+  border-radius: 24px;
+  border: 2px solid #16182e;
+}
+.modalInput input {
+  background: #16182e;
+  border: none;
+}
+
+.modalInput select {
+  background: #16182e;
+  border: none;
+}
+
+.modalTitle {
+  font-size: 20px;
+  font-family: Inter-Tight;
+  font-style: normal;
+  font-weight: 400;
+  color: #ffffff;
+}
+
+.modalContentItem {
+  display: flex;
+  margin: 24px 0;
+  padding: 0 20px;
+  background: #101124;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 90%;
+  gap: 6px;
+  color: #ffffff;
+  border-radius: 8px;
+}
+
+.modalContentItem img {
+  width: 30px;
+  height: 30px;
+}
+
+.modalContentItemInput {
+  width: 80%;
+  height: 64px;
+  background: #101124;
+  border-radius: 8px;
+  border: none;
+  color: #ffffff;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  padding: 0 20px 0 0;
+}
+
+.modalContentItemInput:focus {
+  outline: none;
+}
+
+.modalButtonGroup {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  gap: 24px;
+}
+
+.modalDepositButton {
+  width: 90%;
+  height: 50px;
+  background: #6802dd;
+  border-radius: 4px;
+  border: none;
+  color: #ffffff;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
