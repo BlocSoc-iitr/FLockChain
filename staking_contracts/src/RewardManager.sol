@@ -5,12 +5,10 @@ contract RewardManager {
     error NotEnoughFunds();
 
     address public immutable REWARD_TREASURY_ADDRESS;
-    uint256 public immutable BASE_FEE;
     uint256 public immutable FEE_PER_EPOCH;
     uint256 public immutable PROTOCOL_FEE_PERCENTAGE; // scaled by 8
 
     mapping(uint256 => UserInstance) public idToUserInstance;
-    mapping(address => bool) public baseFeePaid;
     uint256 public nonce;
 
     event NewUserInstance(uint256 indexed instanceId, uint256 numberOfEpochs);
@@ -26,28 +24,16 @@ contract RewardManager {
 
     /// @notice Constructor for RewardManager
     /// @param _rewardTreasuryAddress Address of reward treasury
-    /// @param _baseFee Base fee
     /// @param _feePerEpoch Fee per epoch
     /// @param _protocolFeePercentage Percentage of fee to be sent to protocol
     constructor(
         address _rewardTreasuryAddress,
-        uint256 _baseFee,
         uint256 _feePerEpoch,
         uint256 _protocolFeePercentage
     ) {
         REWARD_TREASURY_ADDRESS = _rewardTreasuryAddress;
-        BASE_FEE = _baseFee;
         FEE_PER_EPOCH = _feePerEpoch;
         PROTOCOL_FEE_PERCENTAGE = _protocolFeePercentage;
-    }
-
-    /// @notice Function to pay base fee
-    /// @dev This function is used to pay base fee
-    function payBaseFee() external payable {
-        if (msg.value < BASE_FEE) {
-            revert NotEnoughFunds();
-        }
-        baseFeePaid[msg.sender] = true;
     }
 
     /// @notice Function to create new user instance
