@@ -57,3 +57,19 @@ body {
 a {
   text-decoration: none;
 }
+
+.modalDepositButton {
+  width: 90%;
+  height: 50px;
+  background: #6802dd;
+  border-radius: 4px;
+  border: none;
+  color: #ffffff;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

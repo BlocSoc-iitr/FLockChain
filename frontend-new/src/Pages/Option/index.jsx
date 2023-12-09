@@ -2,8 +2,28 @@ import React from "react";
 import styles from "./index.module.css";
 import { ForceGraph2D } from "react-force-graph";
 import { useRef } from "react";
+import { Modal } from "antd";
+import { useState } from "react";
+import close from "../../Assets/close.svg";
+
+const TaskModal = ({ visible, setVisible }) => {
+  return (
+    <Modal
+      visible={visible}
+      onOk={() => { }}
+      onCancel={() => setVisible(false)}
+      footer={null}
+      closeIcon={<img src={close} alt="" />}
+    >
+      <div className={styles.modalContainer}>
+        <button className={styles.modalDepositButton}>Stake Amount</button>
+      </div>
+    </Modal>
+  );
+};
 
 const Option = () => {
+  const [visible, setVisible] = useState(false);
   const fgRef = useRef();
   return (
     <div className={styles.container}>
@@ -77,10 +97,9 @@ const Option = () => {
           <a href="/users">
             <button className={styles.actionButton}>Login as an User</button>
           </a>
-          <a href="/clients">
-            <button className={styles.actionButton}>Login as a Client</button>
-          </a>
+          <button className={styles.actionButton} onClick={() => setVisible(true)}>Login as a Client</button>
         </div>
+        <TaskModal visible={visible} setVisible={setVisible} />
       </div>
     </div>
   );

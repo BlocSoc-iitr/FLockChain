@@ -6,6 +6,7 @@ import {
   ETHEREUM_LOGO,
   TETHER_LOGO,
 } from "../../constants/constants";
+import { Link } from "react-router-dom";
 
 const columns = [
   {
@@ -31,9 +32,8 @@ const columns = [
             <div>{`Time Taken: ${record.timeElapsed} `}</div>
           </div>
           <div>
-            <div>Trained Through</div>
             <div className={styles.nodeNumber}>23</div>
-            <div>Nodes</div>
+            <div>Epoches</div>
           </div>
         </div>
       );
@@ -95,7 +95,7 @@ const UserTableCompleted = () => {
   ];
 
   return (
-      <Table
+    <Table
       columns={columns}
       dataSource={data}
       onChange={onChange}
