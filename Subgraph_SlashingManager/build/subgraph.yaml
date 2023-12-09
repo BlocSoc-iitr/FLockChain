@@ -1,0 +1,24 @@
+specVersion: 0.0.5
+schema:
+  file: schema.graphql
+dataSources:
+  - kind: ethereum
+    name: SlashingManager
+    network: sepolia
+    source:
+      address: "0xfb0e1e83aa815ff9ea95d5b207c90f6e21ce1e47"
+      abi: SlashingManager
+      startBlock: 4852175
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - SlashClients
+      abis:
+        - name: SlashingManager
+          file: SlashingManager/abis/SlashingManager.json
+      eventHandlers:
+        - event: SlashClients(indexed uint256)
+          handler: handleSlashClients
+      file: SlashingManager/SlashingManager.wasm
