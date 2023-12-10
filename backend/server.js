@@ -41,7 +41,7 @@ let clients = []
 })()
       
 // Connecting MongoDB
-// mongodb();
+mongodb();
 // CORS
 app.use(cors());
 
@@ -101,10 +101,6 @@ app.get("/api/v1/epoch", (req,res) => {
   evaluator.multiply(cipherText1,cipherText_Normalize,Result)
 
   // send the Result to the clients .... 
-})
-
-app.get("/api/v1/result", (req,res) => {
-    
 })
 
 app.get("/api/v1/user", (req,res) => {
