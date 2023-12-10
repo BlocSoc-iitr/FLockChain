@@ -8,6 +8,9 @@ const columns = [
     title: "Timestamp",
     dataIndex: "time",
     render: (text, record) => {
+      const handleDownload = async () => {
+        window.open("http://192.168.206.90/api/v1/DownLoadModel", "_blank");
+      };
       return (
         <div className={styles.tableContent}>
           <div>
@@ -23,6 +26,11 @@ const columns = [
             <div>Layers: {record.no_of_layers}</div>
             <div>Activation Function: {record.activation_function}</div>
             <div>{`Time Elapsed:${record.timeElapsed} `}</div>
+          </div>
+          <div>
+            <button className={styles.button} onClick={handleDownload}>
+              Download Model
+            </button>
           </div>
         </div>
       );
@@ -42,13 +50,15 @@ const UserTable = () => {
   const baseURL = "http://192.168.206.90/api/v1";
 
   useEffect(() => {
-    axios.get(`${baseURL}/form/fetch`)
-    .then((res) => {
-      const updatedData = res.data.filter((item) => item.display === 1);
-      setData(updatedData);
-    }).catch((err) => {
-      console.log(err);
-    })
+    axios
+      .get(`${baseURL}/form/fetch`)
+      .then((res) => {
+        const updatedData = res.data.filter((item) => item.display === 1);
+        setData(updatedData);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   useEffect(() => {
@@ -78,17 +88,17 @@ const UserTable = () => {
 
   return (
     <>
-    {data.length > 0 ?
-      <Table
-        columns={columns}
-        dataSource={data}
-        onChange={onChange}
-        className={styles.table}
-        pagination={false}
-      /> : <div className={styles.noData}>
-        No Data Available
-      </div>
-    }
+      {data.length > 0 ? (
+        <Table
+          columns={columns}
+          dataSource={data}
+          onChange={onChange}
+          className={styles.table}
+          pagination={false}
+        />
+      ) : (
+        <div className={styles.noData}>No Data Available</div>
+      )}
     </>
   );
 };

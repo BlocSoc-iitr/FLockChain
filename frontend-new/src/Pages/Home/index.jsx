@@ -95,7 +95,7 @@ const Home = () => {
         />
       </div>
       <div className={styles.content}>
-        <div className={styles.title}>FedChain</div>
+        <div className={styles.title}>FLockChain</div>
         <div className={styles.subtitle}>
           A Federated Learning network built on Proof of Stake and micro-rollups.
         </div>

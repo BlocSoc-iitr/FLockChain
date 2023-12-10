@@ -23,7 +23,6 @@ const TxModal = ({
   visible,
   setVisible,
   setCreateVisible,
-  account,
   name,
   modelType,
   clientNumber,
@@ -34,6 +33,7 @@ const TxModal = ({
 }) => {
   const [loading, setLoading] = useState(false);
   const [gasData, setGasData] = useState();
+  const { account } = useSDK();
 
   const handleClickDeposit = async () => {
     setLoading(true);
@@ -308,6 +308,7 @@ const TaskModal = ({
             />
             {/* <img src={UsdcLogo} alt="" /> */}
           </div>
+          <input className={styles.modalContentItem} type="file" />
         </div>
         <div className={styles.modalButtonGroup}>
           <button

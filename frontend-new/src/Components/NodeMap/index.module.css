@@ -70,3 +70,20 @@
         justify-content: center;
     }
 }
+
+.modalDepositButton {
+    width: 25%;
+    height: 50px;
+    margin-top: 20px;
+    background: #6802dd;
+    border-radius: 4px;
+    border: none;
+    color: #ffffff;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }

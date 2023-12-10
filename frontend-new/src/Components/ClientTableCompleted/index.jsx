@@ -48,7 +48,7 @@ const UserTableCompleted = () => {
     axios
       .get(`${baseURL}/form/fetch`)
       .then((res) => {
-        const updatedData = res.data.filter((item) => item.display === 3);
+        const updatedData = res.data.filter((item) => item.display === 2);
         setData(updatedData);
       })
       .catch((err) => {
