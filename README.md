@@ -6,27 +6,27 @@ conditions.
 
 ### Federated Learning and its Problems
 
-Federated Learning is a privacy preserving scheme to train machine learning models. Data exists in isolated pools and clients
-that are part of this network train a set of base parameters on this data. They share the updated model parameters with an
-aggregator that takes the federated average of this set of models. The result is going to be the base model for the next 
+Federated Learning is a privacy preserving scheme to train deep learning models. Data exists in isolated pools and clients
+that are part of the network train a model with base parameters on their own individual data. They share the updated model parameters with an
+aggregator that takes the federated average of this set of models. The result is going to be a new updated base model for the next 
 epoch of training.
 <br><br>
 In a network of clients, you have to ensure that they are training models honestly so that the accuracy of the model improves.
 You can have malicious clients in a network that can sabotage the network and reduce model accuracy. We can solve this problem
-by leaveraging a proof of stake architecture. 
+by leveraging a *Proof of Stake* architecture. 
 
 ## Architecture of FedChain
 
 <img src="assets/architecture.png"></img>
 <br>
 A user can onboard on our platform and require a particular type of model by specifying their requirements like number of 
-epochs or accuracy of the model. We have a set of clients that have data and servers train models for our users. We have 
-an aggreagtor that performs federated learning on this network. The clients are made to stake a set `STAKE_AMOUNT` into 
+epochs or a desired accuracy of the model. The protocol we built has a set of clients that have data and they train models for our users. We have 
+an aggregator that performs federated learning on this network. The clients are made to stake a set `STAKE_AMOUNT` into 
 our `StakingRegistry` contract. This stake can be slashed by the `SlashingManager` which disincentivises any malicious 
 behaviour. 
 <br><br>
 In order to ensure spam resistance on the network, the user is made to pay an initial set `BASE_FEE`. After the model reaches
-a desired level of accuracy, the user is charged accoridng to the number of Epochs and price per epoch for their model. The
+a desired level of accuracy as per the user, he/she is charged accoridng to the number of Epochs and price per epoch for their model. The
 fees paid by the user is distributed amongst the protcol and the clients which is managed by `RewardManager` contract.
 
 ### Arbitrum Mainnet Contracts
@@ -76,14 +76,15 @@ FedChain uses Stackr to develop a micro-rollup on top of the network of clients.
 Sharing (MPS) Chain which will hold the state of the model parameters for each epoch. This is essential as their needs to be
 a verifiable track of the updated parameters shared by each client.
 <br><br>
-The rollup architecture also allows for off-chian verifiable computation which is where the slashing condition is implemneted.
-The State Transition function of the rollup does the slashing checks offchians and maintains a state of the model parameters of
+The rollup architecture also allows for off-chian verifiable computation where the slashing conditions are implemneted.
+The State Transition function of the rollup does the slashing checks offchains and maintains a state of the model parameters of
 a client as well as whether or not it should be slashed for that epoch. The aggregator fetches the state after each epoch and
 if a client is malicious, it calls the `SlashingManager` and slashes the stake of that client.
 
 ### Slashing Conditions
 
-The Slashing conditions that are implemneted in the rollup check for correaltion and existence of outliers in the set of clients.
+The Slashing conditions that are implemneted in the rollup check for correlation between the base and the trained models and the 
+existence of outliers in the set of clients.
 The Krum function is used to set a score for each of the clients for that epoch. It is the sum of squared distances of the
 tensor value of that client with all other clients. The assumption of this function is that the majority of clients are honest
 and hence will have model parameters which are very similar to each other. The tensor value associated with a sharp contarst 
