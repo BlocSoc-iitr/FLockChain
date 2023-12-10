@@ -46,13 +46,16 @@ const UserTable = () => {
   const baseURL = "http://192.168.206.90/api/v1";
 
   useEffect(() => {
-    axios.get(`${baseURL}/form/fetch`)
-    .then((res) => {
-      const updatedData = res.data.filter((item) => item.display === 0);
-      setData(updatedData);
-    }).catch((err) => {
-      console.log(err);
-    })
+    axios
+      .get(`${baseURL}/form/fetch`)
+      .then((res) => {
+        const updatedData = res.data.filter((item) => item.display === 0);
+        updatedData.reverse();
+        setData(updatedData);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   useEffect(() => {
@@ -82,17 +85,17 @@ const UserTable = () => {
 
   return (
     <>
-    {data.length > 0 ?
+      {data.length > 0 ? (
         <Table
           columns={columns}
           dataSource={data}
           onChange={onChange}
           className={styles.table}
           pagination={false}
-        /> : <div className={styles.noData}>
-          No Data Available
-        </div>
-      }
+        />
+      ) : (
+        <div className={styles.noData}>No Data Available</div>
+      )}
     </>
   );
 };

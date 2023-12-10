@@ -13,11 +13,25 @@ import { IoWarningOutline } from "react-icons/io5";
 import { handleFetchGasData } from "./getGasData";
 import { ethers } from "ethers";
 import { abi } from "./abi";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
 import axios from "axios";
 import { useSDK } from "@metamask/sdk-react";
+import toast, { Toaster } from "react-hot-toast";
 
-const TxModal = ({ visible, setVisible, setCreateVisible }) => {
+const baseURL = "http://192.168.206.90/api/v1";
+
+const TxModal = ({
+  visible,
+  setVisible,
+  setCreateVisible,
+  account,
+  name,
+  modelType,
+  clientNumber,
+  layerNumber,
+  activationFn,
+  optimiser,
+  value,
+}) => {
   const [loading, setLoading] = useState(false);
   const [gasData, setGasData] = useState();
 
@@ -34,6 +48,29 @@ const TxModal = ({ visible, setVisible, setCreateVisible }) => {
       value: ethers.utils.parseEther("0.05"),
     });
     await tx.wait();
+    await axios
+      .post(`${baseURL}/form/add`, {
+        User_Address: account,
+        session_name: name,
+        model_type: modelType,
+        no_of_clients: clientNumber,
+        no_of_layers: layerNumber,
+        activation_function: activationFn,
+        Optimizer: optimiser,
+        Desired_Accuracy: value,
+        display: "0",
+      })
+      .then((response) => {
+        toast.success("Session created successfully", {
+          style: {
+            borderRadius: "8px",
+            background: "#16182E",
+            color: "#fff",
+            padding: "20px 24px",
+          },
+        });
+        console.log(response);
+      });
     setLoading(false);
     setVisible(false);
     setCreateVisible(false);
@@ -130,40 +167,37 @@ const TxModal = ({ visible, setVisible, setCreateVisible }) => {
   );
 };
 
-const TaskModal = ({ visible, setVisible, setPayVisible }) => {
+const TaskModal = ({
+  visible,
+  name,
+  modelType,
+  value,
+  clientNumber,
+  layerNumber,
+  activationFn,
+  optimiser,
+  setVisible,
+  setPayVisible,
+  setName,
+  setModelType,
+  setValue,
+  setClientNumber,
+  setLayerNumber,
+  setActivationFn,
+  setOptimiser,
+}) => {
   const [loading, setLoading] = useState(false);
-  const [name, setName] = useState("");
-  const [modelType, setModelType] = useState("");
-  const [value, setValue] = useState("");
-  const [clientNumber, setClientNumber] = useState(3);
-  const [layerNumber, setLayerNumber] = useState(2);
-  const [activationFn, setActivationFn] = useState("");
-  const [optimiser, setOptimiser] = useState("");
-  const baseURL = "http://192.168.206.90/api/v1";
   const [post, setPost] = useState(null);
   const { account } = useSDK();
 
   const handleClickDeposit = async () => {
-    axios
-      .post(`${baseURL}/form/add`, {
-        User_Address: account,
-        session_name: name,
-        model_type: modelType,
-        no_of_clients: clientNumber,
-        no_of_layers: layerNumber,
-        activation_function: activationFn,
-        Optimizer: optimiser,
-        Desired_Accuracy: value,
-        display: "0",
-      })
-      .then((response) => {
-        setPost(response.data);
-      });
+    setLoading(true);
+    setPayVisible(true);
   };
   return (
     <Modal
       visible={visible}
-      onOk={() => { }}
+      onOk={() => {}}
       onCancel={() => setVisible(false)}
       footer={null}
       closeIcon={<img src={close} alt="" />}
@@ -301,12 +335,20 @@ const UserDashboard = () => {
   const [activeTab, setActiveTab] = React.useState(0);
   const [createVisible, setCreateVisible] = React.useState(false);
   const [visible, setVisible] = React.useState(false);
+  const [name, setName] = useState("");
+  const [modelType, setModelType] = useState("");
+  const [value, setValue] = useState("");
+  const [clientNumber, setClientNumber] = useState(3);
+  const [layerNumber, setLayerNumber] = useState(2);
+  const [activationFn, setActivationFn] = useState("");
+  const [optimiser, setOptimiser] = useState("");
 
   const handleTabChange = (index) => {
     setActiveTab(index);
   };
   return (
     <>
+      <Toaster position="bottom-right" reverseOrder={false} />
       <Navbar />
       <div className={styles.container}>
         <h1>User Dashboard</h1>
@@ -334,11 +376,32 @@ const UserDashboard = () => {
       </div>
       <TaskModal
         visible={createVisible}
+        name={name}
+        modelType={modelType}
+        value={value}
+        clientNumber={clientNumber}
+        layerNumber={layerNumber}
+        activationFn={activationFn}
+        optimiser={optimiser}
         setVisible={setCreateVisible}
         setPayVisible={setVisible}
+        setName={setName}
+        setModelType={setModelType}
+        setValue={setValue}
+        setClientNumber={setClientNumber}
+        setLayerNumber={setLayerNumber}
+        setActivationFn={setActivationFn}
+        setOptimiser={setOptimiser}
       />
       <TxModal
         visible={visible}
+        name={name}
+        modelType={modelType}
+        value={value}
+        clientNumber={clientNumber}
+        layerNumber={layerNumber}
+        activationFn={activationFn}
+        optimiser={optimiser}
         setVisible={setVisible}
         setCreateVisible={setCreateVisible}
       />

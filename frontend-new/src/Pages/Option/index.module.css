@@ -58,6 +58,77 @@ a {
   text-decoration: none;
 }
 
+.modal {
+  color: #ffffff;
+}
+.modalHeader {
+  background: #16182e;
+  border-radius: 24px;
+  border: 2px solid #16182e;
+}
+.modalInput input {
+  background: #16182e;
+  border: none;
+}
+
+.modalInput select {
+  background: #16182e;
+  border: none;
+}
+
+.modalTitle {
+  font-size: 20px;
+  font-family: Inter-Tight;
+  font-style: normal;
+  font-weight: 400;
+  color: #ffffff;
+}
+
+.modalContentItem {
+  display: flex;
+  margin: 24px 0;
+  padding: 0 20px;
+  background: #101124;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 90%;
+  gap: 6px;
+  color: #ffffff;
+  border-radius: 8px;
+}
+
+.modalContentItem img {
+  width: 30px;
+  height: 30px;
+}
+
+.modalContentItemInput {
+  width: 80%;
+  height: 64px;
+  background: #101124;
+  border-radius: 8px;
+  border: none;
+  color: #ffffff;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  padding: 0 20px 0 0;
+}
+
+.modalContentItemInput:focus {
+  outline: none;
+}
+
+.modalButtonGroup {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  gap: 24px;
+}
+
 .modalDepositButton {
   width: 90%;
   height: 50px;
@@ -72,4 +143,52 @@ a {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.modalContentItemLabel {
+  font-size: 14px;
+  width: 100%;
+  font-style: normal;
+  font-weight: 500;
+  color: #ffffff;
+  padding: 20px 0;
+}
+
+.modalContentItemValue {
+  background: #101124;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  color: #ffffff;
+  padding: 20px 0;
+}
+
+.gasHeader {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 90%;
+  gap: 6px;
+  color: #ffffff;
+  border-radius: 8px;
+  padding: 0 20px;
+}
+
+.gasContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 90%;
+  gap: 6px;
+  color: #ffffff;
+  border-radius: 8px;
+  padding: 0 20px;
+}
+
+.congestion {
+  color: #fa3c58;
+  text-align: center;
+  padding: 20px;
 }

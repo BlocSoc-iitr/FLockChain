@@ -150,6 +150,12 @@
   color: #a9a9b0;
 }
 
-.link{
+.link {
   width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: #fff;
 }
