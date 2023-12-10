@@ -180,6 +180,38 @@ app.get("/api/v1/download", (req,res) => {
     });
 })
 
+app.post("/api/v1/update", async (req,res) => {
+  let _id = req.body._id;
+  console.log(_id);
+  let filter = {_id : _id} ;
+  let update = {display : 1};
+  const user_form = await forms.findOneAndUpdate(filter , update);
+  console.log(user_form);
+    res.send("updated")
+})
+
+app.get("/api/v1/DownLoadModel", async (req,res) => {
+  res.download("./model.py", "model.py", (err) => {
+    if(err) {
+      res.send({
+        error: err,
+        msg : "Problem downloading the File"
+      })
+    }
+  })
+})
+
+app.get("/api/v1/SendUpadatedParams", async (req,res) => {
+  res.download("./FinalParams.json", "FinalParams.json", (err) => {
+    if(err) {
+      res.send({
+        error: err,
+        msg : "Problem downloading the File"
+      })
+    }
+  })
+})
+
 app.listen(port, () => {
   console.log(`App listening at port ${port}`);
 });
