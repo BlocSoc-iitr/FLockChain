@@ -308,7 +308,7 @@ const TaskModal = ({
             />
             {/* <img src={UsdcLogo} alt="" /> */}
           </div>
-          <input className={styles.modalContentItem} type="file" />
+          <input className={styles.modalInputFile} type="file" />
         </div>
         <div className={styles.modalButtonGroup}>
           <button
