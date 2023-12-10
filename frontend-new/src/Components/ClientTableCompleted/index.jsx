@@ -14,7 +14,6 @@ const columns = [
             <div className={styles.header}>{record.session_name}</div>
             <div className={styles.subHeader}>{record.time}</div>
             <div>Desired Accuracy: {record.Desired_Accuracy}%</div>
-            <div>Achieved Accuracy: !!!!!!!!!!!!%</div>
             <div className={styles.status}>
               <div className={styles.dot}></div>
               Completed
