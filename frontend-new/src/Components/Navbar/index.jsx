@@ -5,8 +5,10 @@ import BlockiesSvg from "blockies-react-svg";
 import { useSDK } from "@metamask/sdk-react";
 
 const Navbar = () => {
-  const [visible, setVisible] = React.useState(false);
-  const { sdk, connected, chainId, account } = useSDK();
+  const { account } = useSDK();
+  const pathName = window.location.pathname;
+  const role = pathName === "/users" ? "User" : "Client"
+
 
   return (
     <div className={styles.navbar}>
@@ -29,12 +31,11 @@ const Navbar = () => {
           <div className={styles.details}>
             <div className={styles.walletAddress}>
               {account && `${account.slice(0, 6)}...${account.slice(-5, -1)}`}
-            </div>
-            <div className={styles.walletRole}>User</div>
+            </div> 
+              <div className={styles.walletRole}>{role}</div>
           </div>
         </div>
       </div>
-      {/* <WalletModal visible={visible} setVisible={setVisible} /> */}
     </div>
   );
 };

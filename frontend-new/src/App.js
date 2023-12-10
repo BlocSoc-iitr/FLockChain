@@ -15,7 +15,7 @@ function App() {
           <Route path="/option" element={<Option />} />
           <Route path="/users" element={<UserDashboard />} />
           <Route path="/client" element={<Client />} />
-          <Route path="/session-details/:id" element={<NodeMap />} />
+          <Route path="/session-details" element={<NodeMap />} />
         </Routes>
       </BrowserRouter>
     </div>

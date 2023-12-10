@@ -60,11 +60,7 @@ const NodeMap = () => {
               {
                 name: "Node",
                 value: 1,
-              },
-              {
-                name: "Node",
-                value: 1,
-              },
+              }
             ],
           },
           {
@@ -100,13 +96,10 @@ const NodeMap = () => {
         <div id="chartdiv" className={styles.chartdiv}>
           <div className={styles.analysisDiv}>
             <div>
-              Node 1:<p>+0.001</p>{" "}
-            </div>
-            <div>
-              Node 2:<p>+0.001</p>
+              Node 1:<p>+0.001</p>
             </div>
             <div className={styles.lossDiv}>
-              Malicious Node:<p>-0.01</p>
+              Malicious Node:<p>None</p>
             </div>
           </div>
         </div>

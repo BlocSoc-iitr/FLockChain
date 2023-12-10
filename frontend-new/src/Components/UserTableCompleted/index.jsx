@@ -11,7 +11,7 @@ const columns = [
     dataIndex: "time",
     render: (text, record) => {
       return (
-        <Link to="/session-details/:id" className={styles.link}>
+        <Link to="/session-details" className={styles.link}>
           <div className={styles.tableContent}>
             <div>
               <div className={styles.header}>{record.session_name}</div>
