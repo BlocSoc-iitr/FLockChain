@@ -97,7 +97,7 @@ const Home = () => {
       <div className={styles.content}>
         <div className={styles.title}>FedChain</div>
         <div className={styles.subtitle}>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit.
+          A Federated Learning network built on Proof of Stake and micro-rollups.
         </div>
         <button className={styles.button} onClick={connect}>
           {connected && account
