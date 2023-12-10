@@ -4,7 +4,7 @@ The Contracts Deployed on Sepolia :
 2. RewardManager.sol --> 0xae63a322e35fa73bfbb6f1ba32c314f33c3cc407 {Verified}
 3. SlashingManager.sol --> 0xfb0e1e83aa815ff9ea95d5b207c90f6e21ce1e47 {Verified}
 4. SlashTreasury.sol --> 0xde507c35ccd53bc0f710db76783ef5ef1db8b28c {Verified}
-5. StakingRegistry.sol --> 0xc15391b649ed9afc2df40190a8f2fcba8b984721 {Verified}
+5. StakingRegistry.sol --> 0xdd4f66d079ba7c4c300be83e63bde58cdf2042cc {Verified}
 
 The Contracts Deployed on Scroll Seploia : 
 
@@ -37,3 +37,11 @@ The Contracts Deployed on Arbitrum :
 3. SlashingManager.sol --> 0x122195923d6f6d04ba748628c9678401f6c4340f {Verified}
 4. SlashTreasury.sol --> 0x8709ea3d5680b0de65d716f87721d07c0fc46ff3 {Verified}
 5. StakingRegistry.sol --> 0x3edc74f276ff9c476a5be63e3a5b20c616e84a43 {Verified}
+
+The Contracts Deployed on Mantle : 
+
+1. RewardTreasury.sol --> 0x97dcd7c1507d444f2be0a8776eecd139ef503ec8 {}
+2. RewardManager.sol -->  {}
+3. SlashingManager.sol -->  {}
+4. SlashTreasury.sol -->  {}
+5. StakingRegistry.sol -->  {}
