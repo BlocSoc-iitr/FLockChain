@@ -16,6 +16,7 @@ import { abi } from "./abi";
 import axios from "axios";
 import { useSDK } from "@metamask/sdk-react";
 import toast, { Toaster } from "react-hot-toast";
+import UserTxHistory from "../../Components/UserTxHistory";
 
 const baseURL = "http://192.168.206.90/api/v1";
 
@@ -372,8 +373,20 @@ const UserDashboard = () => {
           >
             Completed
           </div>
+          <div
+            className={activeTab === 1 ? styles.tabActive : styles.tab}
+            onClick={() => handleTabChange(2)}
+          >
+            Payment History
+          </div>
         </div>
-        {activeTab === 0 ? <UserTable /> : <UserTableCompleted />}
+        {activeTab === 0 ? (
+          <UserTable />
+        ) : activeTab === 1 ? (
+          <UserTableCompleted />
+        ) : (
+          <UserTxHistory />
+        )}
       </div>
       <TaskModal
         visible={createVisible}
