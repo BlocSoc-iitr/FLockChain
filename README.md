@@ -1,6 +1,6 @@
 # FLockChain
 
-A Federated Learning protocol built on Proof of Stake to establish economic security in the network. The architecture
+A Federated Learning protocol built on Proof of Stake to establish Economic Security in the network. The architecture
 is built on top of micro-rollups to provide verifiable off-chain computation for state management and providing slashing
 conditions.
 
